@@ -1,14 +1,15 @@
+# frozen_string_literal: true
+
 class AnswersController < ApplicationController
-  before_action :find_question, only: [:index, :new, :create, :show]
+  before_action :find_question, only: %i[index new create show]
   before_action :load_answer, only: [:show]
 
   def index
     @answers = @question.answers
   end
 
-  def show
-  end
-  
+  def show; end
+
   def new
     @answer = @question.answers.new
   end

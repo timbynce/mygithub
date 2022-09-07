@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
@@ -9,7 +11,7 @@ RSpec.describe AnswersController, type: :controller do
 
     before { get :index, params: { question_id: question } }
 
-    it 'populates an array of all questions' do
+    it 'populates an array of all answers' do
       expect(assigns(:answers)).to match_array(answers)
     end
 
@@ -33,7 +35,9 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves a new answer to db' do
-        expect { post :create, params: { answer: attributes_for(:answer), question_id: question  } }.to change(Answer, :count).by(1)
+        expect do
+          post :create, params: { answer: attributes_for(:answer), question_id: question }
+        end.to change(Answer, :count).by(1)
       end
 
       it 'redirects to show view' do
@@ -44,7 +48,10 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
       it 'doesnt save the answer' do
-        expect { post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question } }.to_not change(Answer, :count)
+        expect do
+          post :create,
+               params: { answer: attributes_for(:answer, :invalid), question_id: question }
+        end.to_not change(Answer, :count)
       end
 
       it 're-rendres new view' do
@@ -53,5 +60,4 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
@@ -18,7 +20,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
-    before { get :show, params: { id: question } } 
+    before { get :show, params: { id: question } }
 
     it 'assigns the requested question to @questions' do
       expect(assigns(:question)).to eq question
@@ -42,7 +44,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
-    before { get :edit, params: { id: question } } 
+    before { get :edit, params: { id: question } }
 
     it 'assigns the requested question to @questions' do
       expect(assigns(:question)).to eq question
@@ -67,7 +69,9 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'doesnt save the question' do
-        expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
+        expect do
+          post :create, params: { question: attributes_for(:question, :invalid) }
+        end.to_not change(Question, :count)
       end
 
       it 're-rendres new view' do
