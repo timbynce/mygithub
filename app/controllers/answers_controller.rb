@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
-  before_action :find_question, only: [:index, :new, :create, :show, :edit, :update, :destroy]
-  before_action :load_answer, only: [:show, :edit, :update, :destroy]
+  before_action :find_question, only: [:index, :new, :create, :show]
+  before_action :load_answer, only: [:show]
 
   def index
     @answers = @question.answers
