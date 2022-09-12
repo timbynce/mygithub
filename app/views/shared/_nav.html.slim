@@ -4,5 +4,5 @@ nav.navbar
       = link_to 'Sign out', destroy_user_session_path, method: :delete
     - else 
       = link_to 'Sign in', new_user_session_path, method: :delete
-      '|'
+      '|
       = link_to 'Registration', new_user_registration_path, method: :delete

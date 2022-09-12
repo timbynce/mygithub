@@ -25,5 +25,4 @@ feature 'Authenticated user can sign out', %q{
     visit questions_path
     expect(page).to have_content 'Sign in'
   end
-
 end
