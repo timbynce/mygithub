@@ -1,2 +1,7 @@
 h1= @question.title
 p= @question.body
+= render @answers
+= form_with model: [@question, @answer] do |f|
+  p= f.label :body, 'Answer'
+  p= f.text_area :body
+  p= f.submit 'Send answer'
