@@ -7,7 +7,7 @@ feature 'User can open list of all questions', %q{
 } do
 
   given(:user) { create(:user) }
-  given!(:questions) { create_list(:question, 3) }
+  given!(:questions) { create_list(:question, 3, author_id: user.id) }
 
   describe 'Authenticated user' do
     scenario 'list all questions' do

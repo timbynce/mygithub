@@ -20,8 +20,7 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def create
-    @question = Question.new(question_params)
-
+    @question = current_user.questions.build(question_params)
     if @question.save
       redirect_to @question, notice: 'Your question successfully created.'
     else
@@ -45,7 +44,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, :author_id)
   end
 
   def load_question

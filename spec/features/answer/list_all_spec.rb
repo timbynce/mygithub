@@ -7,8 +7,8 @@ feature 'User can open question page with list of answers', %q{
 } do
 
   given(:user) { create(:user) }
-  given!(:question) { create(:question) }
-  given!(:answers) { create_list(:answer, 5 , question: question) }
+  given!(:question) { create(:question, author_id: user.id) }
+  given!(:answers) { create_list(:answer, 5 , question: question, author_id: user.id) }
 
   describe 'Authenticated user' do
     scenario 'list all answers of question' do

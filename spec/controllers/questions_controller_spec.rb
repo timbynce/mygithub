@@ -3,12 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
   let(:user) { create(:user) }
+  let(:question) { create(:question, author_id: user.id) }
 
   describe 'GET #index' do
-    let(:questions) { questions = create_list(:question, 3) }
-
+    let(:questions) { create_list(:question, 3, author_id: user.id) }
     before { get :index }
 
     it 'populates an array of all questions' do
@@ -63,11 +62,11 @@ RSpec.describe QuestionsController, type: :controller do
     
     context 'with valid attributes' do
       it 'saves a new question to db' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+        expect { post :create, params: { question: attributes_for(:question).merge(author_id: user.id) } }.to change(Question, :count).by(1)
       end
 
-      it 'redirects to show view' do
-        post :create, params: { question: attributes_for(:question) }
+      it 'redirects to show view', js: true do
+        post :create, params: { question: attributes_for(:question), author: user }
         expect(response).to redirect_to assigns(:question)
       end
     end

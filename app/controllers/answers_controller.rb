@@ -19,7 +19,7 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question, notice: 'Your answer successfully created.'
     else
-      redirect_to @question
+      redirect_to @question, notice: @answer.errors.full_messages
     end
   end
 
@@ -34,6 +34,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body).merge(author: current_user)
   end
 end

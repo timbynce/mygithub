@@ -7,7 +7,7 @@ feature 'User can open question page with list of answers', %q{
 } do
 
   given(:user) { create(:user) }
-  given!(:question) { create(:question) }
+  given!(:question) { create(:question, author_id: user.id) }
 
   describe 'Authenticated user' do
     scenario 'create answer of question' do
@@ -18,11 +18,19 @@ feature 'User can open question page with list of answers', %q{
       expect(page).to  have_content 'Your answer successfully created.'
     end
 
-    scenario 'create answer of question with errors', :js => true do
+    scenario 'create answer of question with errors', js: true do
       sign_in(user)
       visit question_path(question)
       click_on 'Send answer'
+      byebug
       expect(page).to have_content "Body can't be blank"
     end
+  end
+
+  scenario 'Unauthenticated user answer a question' do
+    visit question_path(question)
+    fill_in 'Answer', with: 'answer text text'
+    click_on 'Send answer'
+    expect(page).to  have_content 'Your answer successfully created.'
   end
 end
