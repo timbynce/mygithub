@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can open question page to create answers', %q{
+feature 'User can open question page to create answers', "
   In order to get answer from community
   As an authenticated user
   I'd like to be able to create answers for question
-} do
-
+" do
   given(:user) { create(:user) }
   given!(:question) { create(:question, author_id: user.id) }
 
@@ -15,7 +16,7 @@ feature 'User can open question page to create answers', %q{
       visit question_path(question)
       fill_in 'Answer', with: 'answer text text'
       click_on 'Send answer'
-      expect(page).to  have_content 'Your answer successfully created.'
+      expect(page).to have_content 'Your answer successfully created.'
     end
 
     scenario 'create answer of question with errors' do
@@ -30,6 +31,6 @@ feature 'User can open question page to create answers', %q{
     visit question_path(question)
     fill_in 'Answer', with: 'answer text text'
     click_on 'Send answer'
-    expect(page).to  have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 end

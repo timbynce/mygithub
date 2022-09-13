@@ -2,14 +2,13 @@
 
 require 'rails_helper'
 
-feature 'Authenticated user can sign out', %q{
+feature 'Authenticated user can sign out', "
   In order to keep safety
   As an unauthenticated user
   I'd like to be able to sign out
-} do
-
+" do
   given(:user) { create(:user) }
-  
+
   background { visit new_user_session_path }
 
   scenario 'Registered user tries to sign out' do

@@ -8,7 +8,7 @@ RSpec.describe AnswersController, type: :controller do
   let!(:answer) { create(:answer, author_id: user.id, question: question) }
 
   describe 'GET #new' do
-    before { login(user) }    
+    before { login(user) }
     before { get :new, params: { question_id: question } }
 
     it 'assigns a new answer to @answer' do
@@ -44,7 +44,8 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 're-rendres show view' do
-        post :create, params: { answer: attributes_for(:answer, :invalid).merge(author_id: user.id), question_id: question }
+        post :create,
+             params: { answer: attributes_for(:answer, :invalid).merge(author_id: user.id), question_id: question }
         expect(response).to render_template :show
       end
     end
@@ -64,6 +65,5 @@ RSpec.describe AnswersController, type: :controller do
     it 'deletes someone else answer' do
       expect { delete :destroy, params: { id: another_answer } }.to change(Question, :count).by(0)
     end
-
   end
 end

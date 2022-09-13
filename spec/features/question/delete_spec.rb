@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can open question page to delete answers', %q{
+feature 'User can open question page to delete answers', "
   In order to get answer from community
   As an authenticated user
   I'd like to be able to delete answers for question
-} do
-
+" do
   given(:user) { create(:user) }
   given(:another_user) { create(:user) }
   given!(:question) { create(:question, author_id: user.id) }

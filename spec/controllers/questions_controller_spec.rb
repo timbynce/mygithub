@@ -59,10 +59,13 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'POST #create' do
     before { login(user) }
-    
+
     context 'with valid attributes' do
       it 'saves a new question to db' do
-        expect { post :create, params: { question: attributes_for(:question).merge(author_id: user.id) } }.to change(Question, :count).by(1)
+        expect do
+          post :create,
+               params: { question: attributes_for(:question).merge(author_id: user.id) }
+        end.to change(Question, :count).by(1)
       end
 
       it 'redirects to show view' do
