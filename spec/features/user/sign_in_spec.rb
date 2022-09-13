@@ -12,12 +12,23 @@ feature 'user can sign in', %q{
   
   background { visit new_user_session_path }
 
-  scenario 'Registered user tries to sign in' do
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: user.password
-    click_on 'Log in'
+  describe "Registered user" do
+    scenario 'tries to sign in' do
+      fill_in 'Email', with: user.email
+      fill_in 'Password', with: user.password
+      click_on 'Log in'
 
-    expect(page).to have_content 'Signed in successfully.'
+      expect(page).to have_content 'Signed in successfully.'
+    end
+
+    scenario 'tries to sign in with bad params' do
+      fill_in 'Email', with: user.email
+      fill_in 'Password', with: ''
+      click_on 'Log in'
+
+      expect(page).to have_content 'Invalid Email or password.'
+    end
+
   end
 
   scenario 'Unregistered user tries to sign in' do
