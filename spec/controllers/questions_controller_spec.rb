@@ -65,7 +65,7 @@ RSpec.describe QuestionsController, type: :controller do
         expect { post :create, params: { question: attributes_for(:question).merge(author_id: user.id) } }.to change(Question, :count).by(1)
       end
 
-      it 'redirects to show view', js: true do
+      it 'redirects to show view' do
         post :create, params: { question: attributes_for(:question), author: user }
         expect(response).to redirect_to assigns(:question)
       end

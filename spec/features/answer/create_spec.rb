@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-feature 'User can open question page with list of answers', %q{
+feature 'User can open question page to create answers', %q{
   In order to get answer from community
   As an authenticated user
-  I'd like to be able to list all answers for question
+  I'd like to be able to create answers for question
 } do
 
   given(:user) { create(:user) }
@@ -30,6 +30,6 @@ feature 'User can open question page with list of answers', %q{
     visit question_path(question)
     fill_in 'Answer', with: 'answer text text'
     click_on 'Send answer'
-    expect(page).to  have_content 'Author must exist'
+    expect(page).to  have_content 'You need to sign in or sign up before continuing.'
   end
 end

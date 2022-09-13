@@ -41,7 +41,7 @@ class QuestionsController < ApplicationController
       @question.destroy
       redirect_to questions_path, notice: 'Question was successfully deleted.'
     else
-      render :show, notice: 'Only author can delete it!'
+      redirect_to @question, notice: 'Only author can delete it!'
     end
   end
 
