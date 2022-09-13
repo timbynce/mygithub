@@ -6,4 +6,8 @@ class User < ApplicationRecord
 
   has_many :questions, class_name: 'Question', foreign_key: :author_id
   has_many :answers, class_name: 'Answer', foreign_key: :author_id
+
+  def is_author?(resource)
+    id == resource.author_id
+  end
 end

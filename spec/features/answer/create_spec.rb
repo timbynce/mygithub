@@ -18,11 +18,10 @@ feature 'User can open question page with list of answers', %q{
       expect(page).to  have_content 'Your answer successfully created.'
     end
 
-    scenario 'create answer of question with errors', js: true do
+    scenario 'create answer of question with errors' do
       sign_in(user)
       visit question_path(question)
       click_on 'Send answer'
-      byebug
       expect(page).to have_content "Body can't be blank"
     end
   end
@@ -31,6 +30,6 @@ feature 'User can open question page with list of answers', %q{
     visit question_path(question)
     fill_in 'Answer', with: 'answer text text'
     click_on 'Send answer'
-    expect(page).to  have_content 'Your answer successfully created.'
+    expect(page).to  have_content 'Author must exist'
   end
 end

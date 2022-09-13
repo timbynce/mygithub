@@ -2,11 +2,7 @@
 
 class AnswersController < ApplicationController
   before_action :find_question, only: %i[index new create show]
-  before_action :load_answer, only: [:show]
-
-  def index
-    @answers = @question.answers
-  end
+  before_action :load_answer, only: %i[show destroy]
 
   def show; end
 
@@ -19,7 +15,16 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question, notice: 'Your answer successfully created.'
     else
-      redirect_to @question, notice: @answer.errors.full_messages
+      render 'questions/show'
+    end
+  end
+
+  def destroy
+    if current_user.is_author?(@answer)
+      @answer.destroy
+      redirect_to @answer.question, notice: 'Answer was successfully deleted.'
+    else
+      render 'questions/show', notice: 'Only author can delete it!'
     end
   end
 

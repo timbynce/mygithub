@@ -3,23 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:user) { create(:user) }
-  let(:question) { create(:question, author: user) }
-  let(:answer) { create(:answer, author: user) }
-
-  describe 'GET #index' do
-    let(:answers) { create_list(:answer, 3, question: question, author_id: user.id) }
-
-    before { get :index, params: { question_id: question, author_id: user.id } }
-
-    it 'populates an array of all answers' do
-      expect(assigns(:answers)).to match_array(answers)
-    end
-
-    it 'renders index view' do
-      expect(response).to render_template :index
-    end
-  end
+  let!(:user) { create(:user) }
+  let!(:question) { create(:question, author_id: user.id) }
 
   describe 'GET #new' do
     before { get :new, params: { question_id: question } }
@@ -58,8 +43,25 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-rendres show view' do
         post :create, params: { answer: attributes_for(:answer, :invalid).merge(author_id: user.id), question_id: question }
-        expect(response).to redirect_to assigns(:question)
+        expect(response).to render_template :show
       end
     end
+  end
+
+  describe 'DELETE #destroy' do
+    let(:another_user) { create(:user) }
+    let!(:another_answer) { create(:answer, author_id: another_user.id, question: question) }
+    let!(:answer) { create(:answer, author_id: user.id, question: question) }
+
+    before { login(user) }
+
+    it 'deletes the answer' do
+      expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+    end
+
+    it 'deletes someone else answer' do
+      expect { delete :destroy, params: { id: another_answer } }.to change(Question, :count).by(0)
+    end
+
   end
 end
