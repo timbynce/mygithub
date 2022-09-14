@@ -1,0 +1,6 @@
+- if answer.persisted?
+  tr
+    td 
+      p.answer = answer.body 
+    td |
+    td = link_to 'Delete Answer', answer, method: :delete

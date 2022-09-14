@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  before_action :find_question, only: %i[index new create show]
-  before_action :load_answer, only: [:show]
-
-  def index
-    @answers = @question.answers
-  end
+  before_action :authenticate_user!, except: [:show]
+  before_action :find_question, only: %i[new create]
+  before_action :load_answer, only: %i[show destroy]
 
   def show; end
 
@@ -16,10 +13,22 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.build(answer_params)
+
     if @answer.save
-      redirect_to @answer
+      redirect_to @question, notice: 'Your answer successfully created.'
     else
-      render :new
+      render 'questions/show'
+    end
+  end
+
+  def destroy
+    @question = @answer.question
+
+    if current_user.is_author?(@answer)
+      @answer.destroy
+      redirect_to @question, notice: 'Answer was successfully deleted.'
+    else
+      redirect_to @question, notice: 'Only author can delete it!'
     end
   end
 
@@ -34,6 +43,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body).merge(author: current_user)
   end
 end
