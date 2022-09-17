@@ -20,7 +20,7 @@ feature 'User can open question page to delete answers', "
       expect(page).to  have_content 'Question was successfully deleted.'
     end
 
-    scenario 'Authenticated user delete question with answers' do
+    scenario 'Authenticated user delete question with answers', js: true do
       sign_in(user)
       visit question_path(question)
       fill_in 'Answer', with: 'answer text text'

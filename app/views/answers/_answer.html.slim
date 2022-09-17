@@ -1,6 +1,12 @@
-- if answer.persisted?
-  tr
-    td 
-      p.answer = answer.body 
-    td |
-    td = link_to 'Delete Answer', answer, method: :delete
+tr
+  td 
+    p.answer = answer.body 
+    - if user_signed_in?
+      td |
+      td = link_to 'Delete Answer', answer, method: :delete
+      td |
+      td = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+      td= form_with model: answer, local: false, class: 'hidden', html: { id:"edit-answer-#{answer.id}" } do |f|
+        p= f.label :body, 'Answer'
+        p= f.text_area :body
+        p= f.submit 'Save Answer'

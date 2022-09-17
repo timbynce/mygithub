@@ -3,8 +3,8 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :find_question, only: %i[new create]
-  before_action :load_answer, only: %i[show destroy]
-
+  before_action :load_answer, only: %i[show destroy update]
+  
   def show; end
 
   def new
@@ -12,13 +12,12 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.build(answer_params)
+    @answer = @question.answers.create(answer_params)
+  end
 
-    if @answer.save
-      redirect_to @question, notice: 'Your answer successfully created.'
-    else
-      render 'questions/show'
-    end
+  def update
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   def destroy

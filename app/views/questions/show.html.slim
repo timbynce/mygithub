@@ -1,10 +1,17 @@
-= render 'shared/errors', resource: @answer
+.answer-errors 
+  = render 'shared/errors', resource: @answer
 
 h1= @question.title
 p= link_to 'Delete Question', @question, method: :delete
 p= @question.body
-= render @question.answers
-= form_with model: [@question, Answer.new], local: true do |f|
+
+.answers
+  table
+    = render @question.answers
+
+.answer-errors
+  = render 'shared/errors', resource: @answer
+= form_with model: [@question, Answer.new], local: false, class: 'new-answer' do |f|
   p= f.label :body, 'Answer'
   p= f.text_area :body
   p= f.submit 'Send answer'
