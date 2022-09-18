@@ -8,4 +8,5 @@ require("bootstrap")
 require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
-import "../utils/answers"
+import "../utils/answer"
+import "../utils/question"

@@ -1,7 +1,7 @@
-tr
+tr class="answer-#{answer.id}"
   td 
-    p.answer = answer.body 
-    - if user_signed_in?
+    p.body = answer.body
+    - if user_signed_in? && current_user.is_author?(answer)
       td |
       td = link_to 'Delete Answer', answer, method: :delete
       td |

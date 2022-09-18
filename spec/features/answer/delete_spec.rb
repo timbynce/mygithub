@@ -16,19 +16,20 @@ feature 'User can open question page to delete answers', "
     sign_in(user)
     visit question_path(question)
     click_on 'Delete Answer'
+    
     expect(page).to  have_content 'Answer was successfully deleted.'
   end
 
-  scenario 'Unauthenticated user try to delete answer of question' do
+  scenario 'Unauthenticated user try to delete answer of question', js: true do
     visit question_path(question)
-    click_on 'Delete Answer'
-    expect(page).to  have_content 'You need to sign in or sign up before continuing.'
+
+    expect(page).to_not  have_content 'Delete Answer'
   end
 
-  scenario 'Authenticated user try to delete answer of some one else' do
+  scenario 'Authenticated user try to delete answer of some one else', js: true do
     sign_in(another_user)
     visit question_path(question)
-    click_on 'Delete Answer'
-    expect(page).to  have_content 'Only author can delete it!'
+
+    expect(page).to_not  have_content 'Delete Answer'
   end
 end
