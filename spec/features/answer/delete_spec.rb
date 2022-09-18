@@ -12,12 +12,12 @@ feature 'User can open question page to delete answers', "
   given!(:question) { create(:question, author_id: user.id) }
   given!(:answer) { create(:answer, question: question, author_id: user.id) }
 
-  scenario 'Authenticated user delete answer of question' do
+  scenario 'Authenticated user delete answer of question', js: true do
     sign_in(user)
     visit question_path(question)
     click_on 'Delete Answer'
     
-    expect(page).to  have_content 'Answer was successfully deleted.'
+    expect(page).to_not  have_content answer.body
   end
 
   scenario 'Unauthenticated user try to delete answer of question', js: true do

@@ -5,6 +5,10 @@ h1= @question.title
 
 .answers
   table
+    tr
+      th Body
+      th Best 
+      th Actions
     = render @question.answers
 
 .answer-errors

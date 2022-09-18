@@ -1,12 +1,12 @@
 tr class="answer-#{answer.id}"
-  td 
-    p.body = answer.body
-    - if user_signed_in? && current_user.is_author?(answer)
-      td |
-      td = link_to 'Delete Answer', answer, method: :delete
-      td |
-      td = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-      td= form_with model: answer, local: false, class: 'hidden', html: { id:"edit-answer-#{answer.id}" } do |f|
-        p= f.label :body, 'Answer'
-        p= f.text_area :body
-        p= f.submit 'Save Answer'
+  td.body = answer.body
+  td.best = answer.is_best?(answer.question)
+  - if user_signed_in? && current_user.is_author?(answer)
+    td = link_to "Delete Answer", answer, remote: true, method: :delete
+    td = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    td= form_with model: answer, local: false, class: 'hidden', html: { id:"edit-answer-#{answer.id}" } do |f|
+      p= f.label :body, 'Answer'
+      p= f.text_area :body
+      p= f.submit 'Save Answer'
+  - if user_signed_in? && current_user.is_author?(answer.question)
+    td = link_to "Mark Best", answer, remote: true, method: :patch
