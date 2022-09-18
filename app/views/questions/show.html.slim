@@ -4,12 +4,13 @@ h1= @question.title
 = render @question
 
 .answers
-  table
-    tr
-      th Body
-      th Best 
-      th Actions
-    = render @question.answers
+  p The Best
+  table.best_answer
+    = render @question.best_answer if @question.best_answer.present?
+
+  p Other
+  table.common_answers
+    = render @question.common_answers
 
 .answer-errors
   = render 'shared/errors', resource: @answer

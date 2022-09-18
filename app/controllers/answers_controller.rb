@@ -3,7 +3,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :find_question, only: %i[new create]
-  before_action :load_answer, only: %i[show destroy update]
+  before_action :load_answer, only: %i[show destroy update update_best]
   
   def show; end
 
@@ -18,14 +18,23 @@ class AnswersController < ApplicationController
   def update
     return unless current_user.is_author?(@answer)
 
-    @answer.update(answer_params)
     @question = @answer.question
+    @answer.update(answer_params)
   end
 
   def destroy
     return unless current_user.is_author?(@answer)
+
     @question = @answer.question
     @answer.destroy
+  end
+
+  def update_best
+    return unless current_user.is_author?(@answer.question)
+    
+    @question = @answer.question
+    @answer.mark_as_best
+    @question.save
   end
 
   private

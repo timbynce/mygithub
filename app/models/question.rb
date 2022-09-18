@@ -5,4 +5,8 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
 
   validates :title, :body, presence: true
+
+  def common_answers
+    answers.where.not(id: best_answer_id)
+  end
 end

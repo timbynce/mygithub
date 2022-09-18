@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2022_09_18_162953) do
     t.text "body"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "best_flag"
     t.index ["author_id"], name: "index_answers_on_author_id"
     t.index ["question_id"], name: "index_answers_on_question_id"
   end
@@ -50,6 +51,6 @@ ActiveRecord::Schema.define(version: 2022_09_18_162953) do
 
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users", column: "author_id"
+  add_foreign_key "questions", "answers", column: "best_answer_id"
   add_foreign_key "questions", "users", column: "author_id"
-  add_foreign_key "questions", "users", column: "best_answer_id"
 end

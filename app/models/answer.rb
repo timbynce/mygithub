@@ -4,7 +4,10 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
-  def is_best?(question)
-    id == question.best_answer
+  def mark_as_best
+    question.best_answer.best_flag = false if question.best_answer.present?
+
+    question.best_answer_id = id
+    question.best_answer.best_flag = true
   end
 end
