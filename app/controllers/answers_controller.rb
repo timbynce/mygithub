@@ -16,23 +16,20 @@ class AnswersController < ApplicationController
   end
 
   def update
-    return unless current_user.is_author?(@answer)
+    determ_authorize(@answer)
 
-    @question = @answer.question
     @answer.update(answer_params)
   end
 
   def destroy
-    return unless current_user.is_author?(@answer)
+    determ_authorize(@answer)
 
-    @question = @answer.question
     @answer.destroy
   end
 
   def update_best
-    return unless current_user.is_author?(@answer.question)
+    determ_authorize(@answer)
 
-    @question = @answer.question
     @answer.mark_as_best
     @question.save
   end
@@ -49,5 +46,11 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body).merge(author: current_user)
+  end
+
+  def determ_authorize(answer)
+    return unless current_user.is_author?(answer.question)
+
+    @question = answer.question
   end
 end
