@@ -11,19 +11,45 @@ feature 'User can mark the best answer', "
   given!(:answer) { create(:answer, question: question, author_id: user.id) }
   given!(:another_answer) { create(:answer, question: question, author_id: another_user.id) }
 
-
   describe 'Authenticated user', js: true do
     scenario 'try to mark answer' do
       sign_in user
       visit question_path(question)
-      click_on "Mark Best"
+
+      within ".answer-#{answer.id}" do
+        click_on "Mark Best"
+      end
 
       within '.best_answer' do
         expect(page).to have_content answer.body
       end
     end
 
+    scenario 'try to mark best in other user question' do
+      sign_in another_user
+      visit question_path(question)
 
+      within ".answer-#{answer.id}" do
+        expect(page).to_not have_content "Mark Best"
+      end
+    end
+
+    scenario 'try to change best answer' do
+      sign_in user
+      visit question_path(question)
+
+      within ".answer-#{answer.id}" do
+        click_on "Mark Best"
+      end
+      
+      within ".answer-#{another_answer.id}" do
+        click_on "Mark Best"
+      end
+
+      within '.best_answer' do
+        expect(page).to have_content another_answer.body
+      end
+    end
   end
 
   describe 'Unauthenticated user' do
