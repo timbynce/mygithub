@@ -4,7 +4,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :find_question, only: %i[new create]
   before_action :load_answer, only: %i[show destroy update update_best]
-  
+
   def show; end
 
   def new
@@ -31,7 +31,7 @@ class AnswersController < ApplicationController
 
   def update_best
     return unless current_user.is_author?(@answer.question)
-    
+
     @question = @answer.question
     @answer.mark_as_best
     @question.save

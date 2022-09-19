@@ -10,7 +10,7 @@ feature 'User can open question page to create answers', "
   given(:user) { create(:user) }
   given!(:question) { create(:question, author_id: user.id) }
 
-  describe 'Authenticated user', js:true do
+  describe 'Authenticated user', js: true do
     scenario 'create answer of question' do
       sign_in(user)
       visit question_path(question)

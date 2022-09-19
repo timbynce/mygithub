@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can edit his answer', "
@@ -17,10 +19,10 @@ feature 'User can edit his answer', "
   end
 
   describe 'Authenticated user', js: true do
-    scenario "edits his answer" do
+    scenario 'edits his answer' do
       sign_in user
       visit question_path(question)
-      click_on "Edit"
+      click_on 'Edit'
       within '.answers' do
         fill_in 'answer_body', with: 'edited answer'
         click_on 'Save Answer'
@@ -31,10 +33,10 @@ feature 'User can edit his answer', "
       end
     end
 
-    scenario "tries to edit answer with errors" do
+    scenario 'tries to edit answer with errors' do
       sign_in user
       visit question_path(question)
-      click_on "Edit"
+      click_on 'Edit'
       within '.answers' do
         fill_in 'answer_body', with: ''
         click_on 'Save Answer'
@@ -47,19 +49,19 @@ feature 'User can edit his answer', "
     scenario "tries to edit other user's answer" do
       sign_in another_user
       visit question_path(question)
-      
+
       within '.answers' do
-        expect(page).to_not have_content "Edit"
+        expect(page).to_not have_content 'Edit'
       end
     end
   end
 
   describe 'Unauthenticated user', js: true do
-    scenario "tries to edit answer" do
+    scenario 'tries to edit answer' do
       visit question_path(question)
 
       within '.answers' do
-        expect(page).to_not have_content "Edit"
+        expect(page).to_not have_content 'Edit'
       end
     end
   end

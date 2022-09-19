@@ -33,13 +33,13 @@ feature 'User can open question page to delete answers', "
   scenario 'Unauthenticated user try to delete question' do
     visit question_path(question)
 
-    expect(page).to_not  have_content 'Delete Question'
+    expect(page).to_not have_content 'Delete Question'
   end
 
   scenario 'Authenticated user try to delete question of some one else' do
     sign_in(another_user)
     visit question_path(question)
 
-    expect(page).to_not  have_content 'Delete Question'
+    expect(page).to_not have_content 'Delete Question'
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can mark the best answer', "
@@ -17,7 +19,7 @@ feature 'User can mark the best answer', "
       visit question_path(question)
 
       within ".answer-#{answer.id}" do
-        click_on "Mark Best"
+        click_on 'Mark Best'
       end
 
       within '.best_answer' do
@@ -30,7 +32,7 @@ feature 'User can mark the best answer', "
       visit question_path(question)
 
       within ".answer-#{answer.id}" do
-        expect(page).to_not have_content "Mark Best"
+        expect(page).to_not have_content 'Mark Best'
       end
     end
 
@@ -39,11 +41,11 @@ feature 'User can mark the best answer', "
       visit question_path(question)
 
       within ".answer-#{answer.id}" do
-        click_on "Mark Best"
+        click_on 'Mark Best'
       end
-      
+
       within ".answer-#{another_answer.id}" do
-        click_on "Mark Best"
+        click_on 'Mark Best'
       end
 
       within '.best_answer' do
@@ -57,7 +59,7 @@ feature 'User can mark the best answer', "
       visit question_path(question)
 
       within '.answers' do
-        expect(page).to_not have_content "Mark Best"
+        expect(page).to_not have_content 'Mark Best'
       end
     end
   end

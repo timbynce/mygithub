@@ -16,7 +16,7 @@ feature 'User can open question page with list of answers', "
       sign_in(user)
       visit question_path(question)
       expected_content = answers.map(&:body)
-      
+
       within '.answers' do
         expect(page.all('.body').map(&:text)).to match_array(expected_content)
       end
