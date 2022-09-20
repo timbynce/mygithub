@@ -20,7 +20,7 @@ feature 'User can open question page to delete answers', "
       expect(page).to  have_content 'Question was successfully deleted.'
     end
 
-    scenario 'Authenticated user delete question with answers' do
+    scenario 'Authenticated user delete question with answers', js: true do
       sign_in(user)
       visit question_path(question)
       fill_in 'Answer', with: 'answer text text'
@@ -32,14 +32,14 @@ feature 'User can open question page to delete answers', "
 
   scenario 'Unauthenticated user try to delete question' do
     visit question_path(question)
-    click_on 'Delete Question'
-    expect(page).to  have_content 'You need to sign in or sign up before continuing.'
+
+    expect(page).to_not have_content 'Delete Question'
   end
 
   scenario 'Authenticated user try to delete question of some one else' do
     sign_in(another_user)
     visit question_path(question)
-    click_on 'Delete Question'
-    expect(page).to  have_content 'Only author can delete it!'
+
+    expect(page).to_not have_content 'Delete Question'
   end
 end

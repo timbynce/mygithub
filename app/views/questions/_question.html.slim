@@ -1,1 +1,13 @@
-p.question = link_to question.title, question
+.question
+  tr     
+    p= question.body
+    - if user_signed_in? && current_user.is_author?(question)
+      td= link_to 'Delete Question', question, method: :delete
+      td |
+      td= link_to 'Edit Body', '#', class: 'edit-question-link', data: { question_id: question.id }
+      td= form_with model: question, local: false, class: 'hidden', html: { id:"edit-question-#{question.id}" } do |f|
+        p= f.label :body, 'Question'
+        p= f.text_area :body
+        p= f.submit 'Save Question'
+
+  
