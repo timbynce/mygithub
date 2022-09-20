@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MarkBestAnswerService
   def initialize(question, answer)
     @question = question
@@ -17,5 +19,4 @@ class MarkBestAnswerService
 
     @question.save
   end
-
 end
