@@ -15,9 +15,4 @@ RSpec.describe Answer, type: :model do
   describe 'validations' do
     it { should validate_presence_of :body }
   end
-
-  describe 'mark_as_best' do
-    before { answer.mark_as_best }
-    it { expect(question.best_answer).to eq answer }
-  end
 end

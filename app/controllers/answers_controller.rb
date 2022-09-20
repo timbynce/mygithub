@@ -30,8 +30,7 @@ class AnswersController < ApplicationController
   def update_best
     determ_authorize(@answer)
 
-    @answer.mark_as_best
-    @question.save
+    MarkBestAnswerService.new(@question, @answer).call
   end
 
   private
