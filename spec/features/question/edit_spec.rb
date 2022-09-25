@@ -19,7 +19,7 @@ feature 'User can open question page to delete answers', "
       fill_in 'question_body', with: 'edited question'
       click_on 'Save Question'
 
-      expect(page).to  have_content 'edited question'
+      expect(page).to have_content 'edited question'
     end
 
     scenario 'add files to question' do
@@ -40,13 +40,13 @@ feature 'User can open question page to delete answers', "
   scenario 'Unauthenticated user tries to edit question' do
     visit question_path(question)
 
-    expect(page).to_not  have_content 'Edit Body'
+    expect(page).to_not have_content 'Edit Body'
   end
 
   scenario 'Another tries to edit question' do
     sign_in(another_user)
     visit question_path(question)
-    
-    expect(page).to_not  have_content 'Edit Body'
+
+    expect(page).to_not have_content 'Edit Body'
   end
 end
