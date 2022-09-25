@@ -6,7 +6,7 @@ class Question < ApplicationRecord
 
   has_many :answers, dependent: :destroy
 
-  has_many_attached :files
+  has_many_attached :files, dependent: :destroy
 
   validates :title, :body, presence: true
 

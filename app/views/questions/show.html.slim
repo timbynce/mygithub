@@ -3,10 +3,6 @@ h1= @question.title
   = render 'shared/errors', resource: @answer
 = render @question
 
-- if @question.files.attached?
-  - @question.files.each do |file|
-    p= link_to file.filename.to_s, url_for(file)
-
 .answers
   p The Best
   table.best_answer
@@ -21,4 +17,6 @@ h1= @question.title
 = form_with model: [@question, Answer.new], local: false, class: 'new-answer' do |f|
   p= f.label :body, 'Answer'
   p= f.text_area :body
+  p= f.label :files
+  p= f.file_field :files, multiple: true
   p= f.submit 'Send answer'

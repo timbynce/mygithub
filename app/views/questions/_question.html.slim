@@ -8,6 +8,16 @@
       td= form_with model: question, local: false, class: 'hidden', html: { id:"edit-question-#{question.id}" } do |f|
         p= f.label :body, 'Question'
         p= f.text_area :body
+        p= f.label :files
+        p= f.file_field :files, multiple: true
         p= f.submit 'Save Question'
+    - if question.files.attached?
+      p Attached Files:
+      table
+        - question.files.each do |file|
+            tr class="file-#{file.id}"
+              td= link_to file.filename.to_s, url_for(file)
+              td |
+              td= link_to 'Remove', attachment_path(file.id), remote: true, method: :delete
 
   
