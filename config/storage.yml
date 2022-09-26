@@ -6,6 +6,14 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
+filebase:
+  service: S3
+  access_key_id: '7F6996B118D1C120C046'
+  secret_access_key: '72Exk5gkn2qXJxyuDgFiPtF1tLVyIRYrcT6xM8Po'
+  bucket: rails
+  endpoint: 'https://s3.filebase.com'
+  region: eu-north-1
+
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
 #   service: S3

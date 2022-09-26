@@ -30,8 +30,7 @@ class AnswersController < ApplicationController
   def update_best
     determ_authorize(@answer)
 
-    @answer.mark_as_best
-    @question.save
+    MarkBestAnswerService.call(@question, @answer)
   end
 
   private
@@ -45,7 +44,7 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body).merge(author: current_user)
+    params.require(:answer).permit(:body, files: []).merge(author: current_user)
   end
 
   def determ_authorize(answer)

@@ -16,8 +16,7 @@ RSpec.describe Answer, type: :model do
     it { should validate_presence_of :body }
   end
 
-  describe 'mark_as_best' do
-    before { answer.mark_as_best }
-    it { expect(question.best_answer).to eq answer }
+  it 'have many attached files' do
+    expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
 end
