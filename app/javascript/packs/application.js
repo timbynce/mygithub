@@ -8,5 +8,6 @@ require("bootstrap")
 require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
+import "cocoon"
 import "../utils/answer"
 import "../utils/question"

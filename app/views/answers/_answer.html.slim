@@ -7,14 +7,25 @@ tr class="answer-#{answer.id}"
       p= f.label :body, 'Answer'
       p= f.text_area :body
       p= f.file_field :files, multiple: true
+
+      p Links: 
+      div class="Question links"
+        = f.fields_for :links do |l|
+          = render 'link_fields', f: l
+      div class="links"  
+        = link_to_add_association 'add link', f, :links 
+
       p= f.submit 'Save Answer'
   - if user_signed_in? && current_user.is_author?(answer.question)
     td = link_to "Mark Best", update_best_answer_path(answer), remote: true, method: :patch
   - if answer.files.attached?
     - answer.files.each do |file|
           td class="file-#{file.id}"= link_to file.filename.to_s, url_for(file)
-          td class="file-#{file.id}"= link_to 'Remove', attachment_path(file.id), remote: true, method: :delete
+          - if user_signed_in? && current_user.is_author?(answer)
+            td class="file-#{file.id}"= link_to 'Remove', attachment_path(file.id), remote: true, method: :delete
   td Links:
   - answer.links.each do |link|
-    td= link_to link.name, link.url
+    td class="link-#{link.id}"= link_to link.name, link.url
+    - if user_signed_in? && current_user.is_author?(answer)
+      td class="link-#{link.id}"= link_to 'Remove',link_path(link.id), remote: true, method: :delete
     

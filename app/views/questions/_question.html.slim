@@ -10,6 +10,14 @@
         p= f.text_area :body
         p= f.label :files
         p= f.file_field :files, multiple: true
+
+        p Links: 
+        div class="Question links"
+          = f.fields_for :links do |l|
+            = render 'link_fields', f: l
+        div class="links"  
+          = link_to_add_association 'add link', f, :links 
+
         p= f.submit 'Save Question'
     - if question.files.attached?
       p Attached Files:
@@ -17,9 +25,15 @@
         - question.files.each do |file|
             tr class="file-#{file.id}"
               td= link_to file.filename.to_s, url_for(file)
-              td |
-              td= link_to 'Remove', attachment_path(file.id), remote: true, method: :delete
+              - if user_signed_in? && current_user.is_author?(question)
+                td |
+                td= link_to 'Remove', attachment_path(file.id), remote: true, method: :delete
     p Links:
-    - question.links.each do |link|
-      li= link_to link.name, link.url
+    div class="question_links"
+      table
+        - question.links.each do |link|
+          tr class="link-#{link.id}"
+            td= link_to link.name, link.url
+            - if user_signed_in? && current_user.is_author?(question)
+              td= link_to 'Remove',link_path(link.id), remote: true, method: :delete
     
