@@ -14,4 +14,7 @@ tr class="answer-#{answer.id}"
     - answer.files.each do |file|
           td class="file-#{file.id}"= link_to file.filename.to_s, url_for(file)
           td class="file-#{file.id}"= link_to 'Remove', attachment_path(file.id), remote: true, method: :delete
-
+  td Links:
+  - answer.links.each do |link|
+    td= link_to link.name, link.url
+    

@@ -19,5 +19,7 @@
               td= link_to file.filename.to_s, url_for(file)
               td |
               td= link_to 'Remove', attachment_path(file.id), remote: true, method: :delete
-
-  
+    p Links:
+    - question.links.each do |link|
+      li= link_to link.name, link.url
+    
