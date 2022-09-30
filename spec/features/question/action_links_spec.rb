@@ -71,7 +71,7 @@ feature 'User can add links to question', "
       expect(page).to have_content "Links name can't be blank"
     end
 
-    scenario 'tries to delete link when edit question', js: true do 
+    scenario 'tries to delete link when edit question' do 
       sign_in(user)
       visit question_path(question)
       click_on 'Edit Body'
