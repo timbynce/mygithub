@@ -24,7 +24,7 @@ feature 'User can add links to question', "
 
       click_on 'Ask'
 
-      expect(page).to have_link 'My gist'
+      expect(page).to have_link 'Жуткий вопрос 1'
     end
 
     scenario 'tries to add wrong link when asks question' do 
@@ -52,7 +52,7 @@ feature 'User can add links to question', "
         fill_in 'Link Url', with: gist_url
         click_on 'Save Question'
 
-        expect(page).to have_link 'My gist'
+        expect(page).to have_link 'Жуткий вопрос 1'
       end
     end
 

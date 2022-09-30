@@ -15,6 +15,7 @@ feature 'User can add award to question', "
   scenario 'Authenticated user try to get award', js: true do
     sign_in user
     visit question_path(question)
+    
     within ".answer-#{answer.id}" do
       click_on 'Mark Best'
     end

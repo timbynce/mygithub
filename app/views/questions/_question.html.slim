@@ -33,7 +33,10 @@
       table
         - question.links.each do |link|
           tr class="link-#{link.id}"
+          - if link.is_a_gist?
+            td class="link-script"= link_to open(link.url + '.txt').read, link.url
+          - else
             td= link_to link.name, link.url
-            - if user_signed_in? && current_user.is_author?(question)
-              td= link_to 'Remove',link_path(link.id), remote: true, method: :delete
+          - if user_signed_in? && current_user.is_author?(question)
+            td= link_to 'Remove',link_path(link.id), remote: true, method: :delete
     
