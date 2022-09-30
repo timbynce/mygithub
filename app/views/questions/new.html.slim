@@ -17,4 +17,17 @@
 
     div class="links"  
       = link_to_add_association 'add link', f, :links 
+
+  p Awards: 
+  div class="Question rewards"
+    = f.fields_for :badge do |a|
+      p
+        = a.label :name, 'Badge title'
+        = a.text_field :name
+      p
+        = a.label :image
+        = a.file_field :image
+
   p= f.submit 'Ask'
+
+

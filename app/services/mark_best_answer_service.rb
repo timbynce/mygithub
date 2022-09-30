@@ -13,6 +13,9 @@ class MarkBestAnswerService < ApplicationService
 
     @question.best_answer.best_flag = false if @question.best_answer.present?
     @question.best_answer_id = @answer.id
+
+    byebug
+    @question.badge.user = @answer.author
     @question.best_answer.best_flag = true
 
     return @question.errors.present? unless @question.save
