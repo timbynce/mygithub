@@ -4,9 +4,6 @@ h1= @question.title
 = render @question
 
 .answers
-  p Award:
-  p= @question.badge.name
-  p= image_tag(@question.badge.image , size: "50x50")
   p The Best
   table.best_answer
     = render @question.best_answer if @question.best_answer.present?

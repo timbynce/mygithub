@@ -1,7 +1,11 @@
 FactoryBot.define do
   factory :badge do
-    image { "MyString" }
-    name { "MyString" }
-    user { nil }
+    name { "MyAward" }
+    after(:build) do |badge|
+      badge.image.attach(
+        io: File.open("#{Rails.root}/123.jpg"),
+        filename: '123.jpg'
+      )
+    end
   end
 end

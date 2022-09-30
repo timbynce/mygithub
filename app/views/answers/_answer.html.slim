@@ -28,4 +28,9 @@ tr class="answer-#{answer.id}"
     td class="link-#{link.id}"= link_to link.name, link.url
     - if user_signed_in? && current_user.is_author?(answer)
       td class="link-#{link.id}"= link_to 'Remove',link_path(link.id), remote: true, method: :delete
+
+  - if answer.best_flag == true && answer.question.badge.present?
+    td Award:
+    td= answer.question.badge.name
+    td= image_tag(answer.question.badge.image , size: "50x50")
     
