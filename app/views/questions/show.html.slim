@@ -1,6 +1,6 @@
 h1= @question.title
 .question-errors
-  = render 'shared/errors', resource: @answer
+  = render 'shared/errors', resource: @question
 = render @question
 
 .answers
@@ -14,9 +14,17 @@ h1= @question.title
 
 .answer-errors
   = render 'shared/errors', resource: @answer
-= form_with model: [@question, Answer.new], local: false, class: 'new-answer' do |f|
+= form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
   p= f.label :body, 'Answer'
   p= f.text_area :body
   p= f.label :files
   p= f.file_field :files, multiple: true
+  p Links: 
+  div class="Question links"
+    = f.fields_for :links do |l|
+      = render 'link_fields', f: l
+
+    div class="links"  
+      = link_to_add_association 'add link', f, :links 
+
   p= f.submit 'Send answer'
