@@ -11,3 +11,4 @@ require("@rails/activestorage").start()
 import "cocoon"
 import "../utils/answer"
 import "../utils/question"
+import "../utils/vote"

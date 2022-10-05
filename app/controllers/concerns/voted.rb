@@ -7,19 +7,17 @@ module Voted
   end
 
   def like
-    if @user_vote.nil?
-      Vote.create!(user: current_user, votable: @votable )
-      render json: { rating: @votable.likes,
-                     resource_name: @votable.class.name.downcase,
-                     resource_id: @votable.id }
-    end
+    return render_failure unless @user_vote.nil?
+
+    Vote.create!(user: current_user, votable: @votable )
+    render_success
   end
 
   def dislike
-      @user_vote.destroy
-      render json: { rating: @votable.likes,
-                     resource_name: @votable.class.name.downcase,
-                     resource_id: @votable.id }
+    return render_failure unless @user_vote.present?
+
+    @user_vote.destroy      
+    render_success
   end
 
   def user_choice
@@ -32,10 +30,16 @@ module Voted
     @user_vote = @votable.votes.find_by(user: current_user)
   end
 
-  # @votable.answers.collect(&:votes).find_by(user: current_user)
-  # question.answers.collect(&:votes).find_by(user: current_user)
-  # question.votes.find_by(user: current_user)
-  # Vote.find_by(user: current_user, votable_type: question)
+  def render_success
+    render json: { rating: @votable.likes,
+                   resource_name: @votable.class.name.downcase,
+                   resource_id: @votable.id }
+  end
+
+  def render_failure
+    @votable.errors[:unprocessable_entity] << "Error on Action"
+    render json: { message: @votable.errors.full_messages }, status: :unprocessable_entity
+  end
 
   def find_votable
     @votable = model_klass.find(params[:id])

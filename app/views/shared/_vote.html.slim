@@ -1,6 +1,8 @@
-'|
-= link_to 'Like', polymorphic_path(resource, action: :like), method: :patch, data: { type: :json}, remote: true
-'|
-= link_to 'Dislike', polymorphic_path(resource, action: :dislike), method: :patch, data: { type: :json}, remote: true
-'|
-= resource.votes.count  
+.vote
+  '|
+  = link_to 'Like', polymorphic_path(resource, action: :like), method: :patch, data: { type: :json}, remote: true
+  '|
+  = link_to 'Dislike', polymorphic_path(resource, action: :dislike), method: :patch, data: { type: :json}, remote: true
+  '|
+td.rating id= "rating-#{resource.class.name.downcase}-#{resource.id}" = resource.votes.count  
+
