@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
+  include Voted
+  
   before_action :authenticate_user!, except: [:show]
   before_action :find_question, only: %i[new create]
   before_action :load_answer, only: %i[show destroy update update_best]

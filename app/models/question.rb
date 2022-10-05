@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Question < ApplicationRecord
+  include Votable
+
   belongs_to :author, class_name: 'User'
   belongs_to :best_answer, class_name: 'Answer', optional: true
 
