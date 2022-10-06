@@ -9,7 +9,7 @@ RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question, author_id: user.id) }
 
   it 'includes MyControllerConcern' do
-    expect(QuestionsController.ancestors.include? Voted).to be(true) 
+    expect(QuestionsController.ancestors.include?(Voted)).to be(true)
   end
 
   describe 'GET #index' do

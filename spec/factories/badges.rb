@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :badge do
-    name { "MyAward" }
+    name { 'MyAward' }
     after(:build) do |badge|
       badge.image.attach(
         io: File.open("#{Rails.root}/123.jpg"),

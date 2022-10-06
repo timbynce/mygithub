@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Voted
   extend ActiveSupport::Concern
 
@@ -30,7 +32,7 @@ module Voted
   end
 
   def render_failure
-    @votable.errors[:unprocessable_entity] << "Error on Like Action"
+    @votable.errors[:unprocessable_entity] << 'Error on Like Action'
     render json: { message: @votable.errors.full_messages }, status: :unprocessable_entity
   end
 
@@ -46,14 +48,14 @@ module Voted
     return render_failure if current_user.is_author?(@votable)
 
     if @user_vote.nil?
-      Vote.create!(user: current_user, votable: @votable, like_value: vote_value )
+      Vote.create!(user: current_user, votable: @votable, like_value: vote_value)
 
-      render_success
     else
       return render_failure if @user_vote.like_value == vote_value
-      @user_vote.destroy 
 
-      render_success
+      @user_vote.destroy
+
     end
+    render_success
   end
 end

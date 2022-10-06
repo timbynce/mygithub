@@ -7,13 +7,12 @@ feature 'User can add links to question', "
   As an authenticated user
   I'd like to be able to add links
 " do
-
   given(:user) { create(:user) }
   given(:gist_url) {  'https://gist.github.com/timbynce/2583f0ce3b9d2027ae2370a2b0c022ec' }
   given!(:question) { create(:question, author_id: user.id) }
 
-  describe 'Authenticated user', js: true  do
-    scenario 'adds link when asks question' do 
+  describe 'Authenticated user', js: true do
+    scenario 'adds link when asks question' do
       sign_in(user)
       visit new_question_path
 
@@ -27,13 +26,13 @@ feature 'User can add links to question', "
       expect(page).to have_link 'Жуткий вопрос 1'
     end
 
-    scenario 'tries to add wrong link when asks question' do 
+    scenario 'tries to add wrong link when asks question' do
       sign_in(user)
       visit new_question_path
 
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'tesxt text text'
-      fill_in 'Link Url', with: "ololo"
+      fill_in 'Link Url', with: 'ololo'
 
       click_on 'Ask'
 
@@ -41,7 +40,7 @@ feature 'User can add links to question', "
       expect(page).to have_content "Links name can't be blank"
     end
 
-    scenario 'tries to add correct link when edit question' do 
+    scenario 'tries to add correct link when edit question' do
       sign_in(user)
       visit question_path(question)
       click_on 'Edit Body'
@@ -56,14 +55,14 @@ feature 'User can add links to question', "
       end
     end
 
-    scenario 'tries to add incorrect link when edit question' do 
+    scenario 'tries to add incorrect link when edit question' do
       sign_in(user)
       visit question_path(question)
       click_on 'Edit Body'
 
       within '.question' do
         click_on 'add link'
-        fill_in 'Link Url', with: "ololo"
+        fill_in 'Link Url', with: 'ololo'
         click_on 'Save Question'
       end
 
@@ -71,7 +70,7 @@ feature 'User can add links to question', "
       expect(page).to have_content "Links name can't be blank"
     end
 
-    scenario 'tries to delete link when edit question' do 
+    scenario 'tries to delete link when edit question' do
       sign_in(user)
       visit question_path(question)
       click_on 'Edit Body'

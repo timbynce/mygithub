@@ -7,11 +7,10 @@ feature 'User can vote an question or answer', "
   As an authenticated user
   I'd like to be able to add like or dislike
 " do
-
-given(:user) { create(:user) }
-given(:another_user) { create(:user) }
-given!(:question) { create(:question, author_id: user.id) }
-given!(:answer) { create(:answer, question: question, author_id: user.id) }
+  given(:user) { create(:user) }
+  given(:another_user) { create(:user) }
+  given!(:question) { create(:question, author_id: user.id) }
+  given!(:answer) { create(:answer, question: question, author_id: user.id) }
 
   describe 'Authenticated user', js: true do
     scenario 'likes the question' do
@@ -19,7 +18,7 @@ given!(:answer) { create(:answer, question: question, author_id: user.id) }
       visit questions_path
 
       click_on 'Like'
-      within ".rating" do
+      within '.rating' do
         expect(page).to have_content 1
       end
     end
@@ -35,7 +34,7 @@ given!(:answer) { create(:answer, question: question, author_id: user.id) }
     scenario 'try to like the question twice' do
       sign_in(another_user)
       visit questions_path
-      
+
       click_on 'Like'
       click_on 'Like'
       expect(page).to have_content 'Error on Like Action'
@@ -44,29 +43,29 @@ given!(:answer) { create(:answer, question: question, author_id: user.id) }
     scenario 'change his opinion about question and dislike after' do
       sign_in(another_user)
       visit questions_path
-      
+
       click_on 'Like'
-      within ".rating" do
+      within '.rating' do
         expect(page).to have_content 1
       end
 
       click_on 'Dislike'
-      within ".rating" do
+      within '.rating' do
         expect(page).to have_content 0
       end
 
       click_on 'Dislike'
-      within ".rating" do
-        expect(page).to have_content -1
+      within '.rating' do
+        expect(page).to have_content(-1)
       end
     end
 
     scenario 'likes the answer' do
       sign_in(another_user)
       visit question_path(question)
-      
+
       click_on 'Like'
-      within ".rating" do
+      within '.rating' do
         expect(page).to have_content 1
       end
     end
@@ -82,7 +81,7 @@ given!(:answer) { create(:answer, question: question, author_id: user.id) }
     scenario 'try to like the answer twice' do
       sign_in(another_user)
       visit question_path(question)
-      
+
       click_on 'Like'
       click_on 'Like'
       expect(page).to have_content 'Error on Like Action'
@@ -91,23 +90,21 @@ given!(:answer) { create(:answer, question: question, author_id: user.id) }
     scenario 'change his opinion about answer and dislike after' do
       sign_in(another_user)
       visit question_path(question)
-      
+
       click_on 'Like'
-      within ".rating" do
+      within '.rating' do
         expect(page).to have_content 1
       end
 
       click_on 'Dislike'
-      within ".rating" do
+      within '.rating' do
         expect(page).to have_content 0
       end
 
       click_on 'Dislike'
-      within ".rating" do
-        expect(page).to have_content -1
+      within '.rating' do
+        expect(page).to have_content(-1)
       end
     end
-
   end
-
 end
