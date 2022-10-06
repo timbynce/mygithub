@@ -7,6 +7,10 @@ RSpec.describe AnswersController, type: :controller do
   let!(:question) { create(:question, author_id: user.id) }
   let!(:answer) { create(:answer, author_id: user.id, question: question) }
 
+  it 'includes MyControllerConcern' do
+    expect(AnswersController.ancestors.include? Voted).to be(true) 
+  end
+
   describe 'GET #new' do
     before { login(user) }
     before { get :new, params: { question_id: question } }

@@ -24,7 +24,6 @@ feature 'User can add links to answer', "
       fill_in 'Link Name', with: 'My gist'
       fill_in 'Link Url', with: gist_url
       click_on 'Send answer'
-
       within '.answers' do
         expect(page).to have_link 'Жуткий вопрос 1'
       end

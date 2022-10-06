@@ -1,6 +1,14 @@
 FactoryBot.define do
   factory :vote do
-    user { nil }
-    votable { "" }
+    association :user, factory: :user
+    association :votable, factory: :question
+
+    trait :like do
+      like_value { 1 }
+    end
+
+    trait :dislike do
+      like_value { -1 }
+    end
   end
 end
