@@ -36,4 +36,4 @@ tr class="answer-#{answer.id}"
     td Award:
     td= answer.question.badge.name
     td= image_tag(answer.question.badge.image , size: "50x50")
-    
+  td = render 'shared/vote', resource: answer

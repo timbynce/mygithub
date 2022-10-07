@@ -3,8 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+  it_behaves_like 'Voted', QuestionsController
+
   let(:user) { create(:user) }
   let(:question) { create(:question, author_id: user.id) }
+
+  it 'includes MyControllerConcern' do
+    expect(QuestionsController.ancestors.include?(Voted)).to be(true)
+  end
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3, author_id: user.id) }
