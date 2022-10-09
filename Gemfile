@@ -24,6 +24,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'rubocop'
 gem 'devise'
 gem 'twitter-bootstrap-rails'
+gem 'bootstrap'
 gem 'jquery-rails'
 gem 'aws-sdk-s3', require: false
 gem "cocoon"

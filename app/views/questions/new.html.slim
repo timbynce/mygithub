@@ -1,33 +1,34 @@
-.question-errors
-  = render 'shared/errors', resource: @question
+.col-12.col-md-8.offset-1
+  div class="mx-auto"
+    .question-errors
+      = render 'shared/errors', resource: @question
 
-= form_with model: @question do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  p
-    = f.label :files
-    = f.file_field :files, multiple: true
-    
-  p Links: 
-  div class="Question links"
-    = f.fields_for :links do |l|
-      = render 'link_fields', f: l
+    = form_with model: @question do |f|
+      p= f.label :title
+      = f.text_field :title
 
-    div class="links"  
-      = link_to_add_association 'add link', f, :links 
+      p= f.label :body
+      = f.text_area :body
 
-  p Awards: 
-  div class="Question rewards"
-    = f.fields_for :badge do |a|
-      p
-        = a.label :name, 'Badge title'
-        = a.text_field :name
-      p
-        = a.label :image
-        = a.file_field :image
+      p= f.label :files
+      = f.file_field :files, multiple: true
+        
+      p Links: 
+      div class="Question links"
+        = f.fields_for :links do |l|
+          = render 'link_fields', f: l
 
-  p= f.submit 'Ask'
+      div class="links"  
+        p= link_to_add_association 'add link', f, :links 
+          
+      p Awards: 
+      div class="Question rewards"
+        = f.fields_for :badge do |a|
+          p= a.label :name, 'Badge title'
+          = a.text_field :name
+          p= a.label :image
+          = a.file_field :image
+
+      p= f.submit class: 'btn btn-primary mt-2'
 
 

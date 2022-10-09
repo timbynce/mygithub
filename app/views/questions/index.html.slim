@@ -1,8 +1,14 @@
-p= link_to 'Ask question', new_question_path
-table
-  - @questions.each do |question|
-    tr
-      td.question = link_to question.title, question
-      td = render 'shared/vote', resource: question
+.col-12.col-md-8.offset-1
+  =link_to 'Ask question', new_question_path, class: 'btn btn-primary mt-2'
+  table.table
+    thead
+      tr
+        th Question
+        th Voting
+        th Rating
+    - @questions.each do |question|
+      tr
+        td.question = link_to question.title, question
+        td= render 'shared/vote', resource: question
 
 

@@ -1,30 +1,31 @@
-h1= @question.title
-.question-errors
-  = render 'shared/errors', resource: @question
-= render @question
+.col-12.col-md-8.offset-1
+  h1= @question.title
+  .question-errors
+    = render 'shared/errors', resource: @question
+  = render @question
 
-.answers
-  p The Best
-  table.best_answer
-    = render @question.best_answer if @question.best_answer.present?
+  .answers
+    p The Best
+    table.best_answer
+      = render @question.best_answer if @question.best_answer.present?
 
-  p Other
-  table.common_answers
-    = render @question.common_answers
+    p Other
+    table.common_answers
+      = render @question.common_answers
 
-.answer-errors
-  = render 'shared/errors', resource: @answer
-= form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
-  p= f.label :body, 'Answer'
-  p= f.text_area :body
-  p= f.label :files
-  p= f.file_field :files, multiple: true
-  p Links: 
-  div class="Question links"
-    = f.fields_for :links do |l|
-      = render 'link_fields', f: l
+  .answer-errors
+    = render 'shared/errors', resource: @answer
+  = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
+    p= f.label :body, 'Answer'
+    p= f.text_area :body
+    p= f.label :files
+    p= f.file_field :files, multiple: true
+    p Links: 
+    div class="Question links"
+      = f.fields_for :links do |l|
+        = render 'link_fields', f: l
 
-    div class="links"  
-      = link_to_add_association 'add link', f, :links 
+      div class="links"  
+        = link_to_add_association 'add link', f, :links 
 
-  p= f.submit 'Send answer'
+    p= f.submit 'Send answer'

@@ -1,13 +1,10 @@
-nav.navbar
-  span
+nav.navbar.navbar-light.bg-light
+  span.navbar-text
     - if user_signed_in?
-      = link_to 'Sign out', destroy_user_session_path, method: :delete
-      '|
-      = link_to 'Questions', questions_path
-      '|
-      = link_to 'My Awards', badges_path
+      a= link_to 'Questions', questions_path
+      a= link_to 'My Awards', badges_path
+      a= link_to 'Sign out', destroy_user_session_path, method: :delete
     - else 
       = link_to 'Sign in', new_user_session_path
-      '|
       = link_to 'Registration', new_user_registration_path
 
