@@ -6,6 +6,8 @@ consumer.subscriptions.create("QuestionsChannel", {
   },
   
   received(data) {
-    $('.table').append(data);
+    console.log(data)
+    
+    //$('.table').append(data);
   }
 });

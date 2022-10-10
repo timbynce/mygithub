@@ -2,6 +2,7 @@
 
 class Question < ApplicationRecord
   include Votable
+  include Commentable
 
   belongs_to :author, class_name: 'User'
   belongs_to :best_answer, class_name: 'Answer', optional: true
