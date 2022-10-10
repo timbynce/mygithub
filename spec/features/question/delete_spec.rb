@@ -23,6 +23,8 @@ feature 'User can open question page to delete answers', "
     scenario 'Authenticated user delete question with answers', js: true do
       sign_in(user)
       visit question_path(question)
+      click_on 'New answer'
+      
       fill_in 'Answer', with: 'answer text text'
       click_on 'Send answer'
       click_on 'Delete Question'

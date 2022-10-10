@@ -14,6 +14,7 @@ feature 'User can open question page to create answers', "
     scenario 'create answer of question' do
       sign_in(user)
       visit question_path(question)
+      click_on 'New answer'
       fill_in 'Answer', with: 'answer text text'
       click_on 'Send answer'
       expect(page).to have_content 'answer text text'
@@ -22,6 +23,7 @@ feature 'User can open question page to create answers', "
     scenario 'create answer of question with errors' do
       sign_in(user)
       visit question_path(question)
+      click_on 'New answer'
       click_on 'Send answer'
       expect(page).to have_content "Body can't be blank"
     end
@@ -29,6 +31,7 @@ feature 'User can open question page to create answers', "
     scenario 'create answer of question with attached file', js: true do
       sign_in(user)
       visit question_path(question)
+      click_on 'New answer'
       fill_in 'Answer', with: 'answer text text'
       attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
       click_on 'Send answer'
@@ -40,6 +43,7 @@ feature 'User can open question page to create answers', "
 
   scenario 'Unauthenticated user answer a question' do
     visit question_path(question)
+    click_on 'New answer'
     fill_in 'Answer', with: 'answer text text'
     click_on 'Send answer'
     expect(page).to have_content 'You need to sign in or sign up before continuing.'

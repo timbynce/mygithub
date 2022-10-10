@@ -17,6 +17,8 @@ feature 'User can add links to answer', "
     scenario 'adds link when answer the question' do
       sign_in(user)
       visit question_path(question)
+      click_on 'New answer'
+      click_on 'Add links'
 
       fill_in 'Answer', with: 'answer text text'
 
@@ -31,6 +33,8 @@ feature 'User can add links to answer', "
     scenario 'tries to add wrong link when answer the question' do
       sign_in(user)
       visit question_path(question)
+      click_on 'New answer'
+      click_on 'Add links'
 
       fill_in 'Answer', with: 'answer text text'
       fill_in 'Link Url', with: 'ololo'

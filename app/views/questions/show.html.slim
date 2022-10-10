@@ -6,26 +6,32 @@
 
   .answers
     p The Best
-    table.best_answer
+    table.table.best_answer
       = render @question.best_answer if @question.best_answer.present?
 
     p Other
-    table.common_answers
+    table.table.common_answers
       = render @question.common_answers
+  
+  .new-answer
+    button.new-answer-button.btn.btn-primary.mt-2 type="button" New answer
+    .answer-errors
+      = render 'shared/errors', resource: @answer
+    div id="new-answer-block" class="hidden"
+      = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
+        p= f.label :body, 'Answer'
+        p= f.text_area :body, class: 'form-control'
+        p= f.label :files
+        p= f.file_field :files, multiple: true
+        
+        .new-answer-links
+          button.new-answer-links-button.btn.btn-primary.mt-2 type="button" Add links
+          div id="new-answer-links-block" class="hidden"
+            div class="Question links"
+              = f.fields_for :links do |l|
+                = render 'link_fields', f: l
 
-  .answer-errors
-    = render 'shared/errors', resource: @answer
-  = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
-    p= f.label :body, 'Answer'
-    p= f.text_area :body
-    p= f.label :files
-    p= f.file_field :files, multiple: true
-    p Links: 
-    div class="Question links"
-      = f.fields_for :links do |l|
-        = render 'link_fields', f: l
+              div class="links"  
+                = link_to_add_association 'add link', f, :links 
 
-      div class="links"  
-        = link_to_add_association 'add link', f, :links 
-
-    p= f.submit 'Send answer'
+        p= f.submit 'Send answer', class: 'btn btn-primary mt-2'
