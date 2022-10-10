@@ -7,6 +7,8 @@ class AnswersController < ApplicationController
   before_action :find_question, only: %i[new create]
   before_action :load_answer, only: %i[show destroy update update_best]
 
+  after_action :publish, only: [:create]
+
   def show; end
 
   def new
@@ -36,6 +38,19 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def publish
+    return if @answer.errors.any?
+
+    ActionCable.server.broadcast(
+      'answers',
+      ApplicationController.render_with_signed_in_user(
+        current_user,
+        partial: 'answers/answer',
+        locals: { answer: @answer}
+      )
+    )
+  end
 
   def find_question
     @question = Question.find(params[:question_id])
