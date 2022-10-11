@@ -11,7 +11,7 @@ feature 'User can add comments to question', "
   given!(:question) { create(:question, author_id: user.id) }
 
   scenario 'leave a comment to question', js: true do
-    page.driver.browser.manage.window.resize_to(1900,1080)
+    page.driver.browser.manage.window.resize_to(1900, 1080)
     sign_in(user)
     visit question_path(question)
     within '.question' do

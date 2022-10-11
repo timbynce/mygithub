@@ -55,7 +55,7 @@ RSpec.describe AnswersController, type: :controller do
         post :create,
              params: { answer: attributes_for(:answer, :invalid).merge(author_id: user.id), question_id: question },
              format: :js
-             expect(response).to_not render_template 'answers/_answer'
+        expect(response).to_not render_template 'answers/_answer'
       end
     end
   end

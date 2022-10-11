@@ -24,7 +24,7 @@ feature 'User can open question page to delete answers', "
       sign_in(user)
       visit question_path(question)
       click_on 'New answer'
-      
+
       fill_in 'Answer', with: 'answer text text'
       click_on 'Send answer'
       click_on 'Delete Question'

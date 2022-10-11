@@ -50,7 +50,7 @@ feature 'User can add links to question', "
         fill_in 'Link Name', with: 'My gist'
         fill_in 'Link Url', with: gist_url
         click_on 'Save Question'
-        
+
         expect(page).to have_link 'Жуткий вопрос 1'
       end
     end

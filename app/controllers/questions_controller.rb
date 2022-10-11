@@ -3,7 +3,7 @@
 class QuestionsController < ApplicationController
   include Voted
   include Commented
-  
+
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show update destroy]
 
@@ -65,7 +65,8 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, :author_id, files: [], links_attributes: [:name, :url], badge_attributes: %i[name image])
+    params.require(:question).permit(:title, :body, :author_id, files: [], links_attributes: %i[name url],
+                                                                badge_attributes: %i[name image])
   end
 
   def load_question

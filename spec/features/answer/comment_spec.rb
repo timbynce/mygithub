@@ -12,7 +12,7 @@ feature 'User can add comments to answer', "
   given!(:answer) { create(:answer, question: question, author_id: user.id) }
 
   scenario 'leave a comment to answer', js: true do
-    page.driver.browser.manage.window.resize_to(1900,1080)
+    page.driver.browser.manage.window.resize_to(1900, 1080)
     sign_in(user)
     visit question_path(question)
     within '.new-comment-form' do
