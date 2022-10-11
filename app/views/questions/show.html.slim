@@ -4,15 +4,8 @@
     = render 'shared/errors', resource: @question
   = render @question
 
-  .question-comments 
-    p Comments
-    = render @question.comments
-
-  .question-new-comment
-    = render 'shared/comment', resource: @question
-
   .answers
-    p The Best
+    p.p.mt-2 The Best
     table.table.best_answer
       = render @question.best_answer if @question.best_answer.present?
 

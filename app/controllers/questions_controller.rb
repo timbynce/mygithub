@@ -17,6 +17,7 @@ class QuestionsController < ApplicationController
     @answers = @question.answers
     @answer = Answer.new
     @answer.links.new
+    gon.push({ question_id: @question.id })
   end
 
   def new

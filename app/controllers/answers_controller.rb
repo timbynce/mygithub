@@ -44,7 +44,7 @@ class AnswersController < ApplicationController
     return if @answer.errors.any?
 
     ActionCable.server.broadcast(
-      'answers',
+      "answer_question_#{params[:question_id]}",
       ApplicationController.render_with_signed_in_user(
         current_user,
         partial: 'answers/answer',

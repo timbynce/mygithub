@@ -2,9 +2,8 @@
   tr     
     p= question.body
     - if user_signed_in? && current_user.is_author?(question)
-      td= link_to 'Delete Question', question, method: :delete
-      td |
-      td= link_to 'Edit Body', '#', class: 'edit-question-link', data: { question_id: question.id }
+      td= link_to 'Delete Question', question, method: :delete, class: 'btn btn-sm btn-outline-primary mt-2'
+      td= link_to 'Edit Body', '#', class: 'edit-question-link', data: { question_id: question.id }, class: 'question-edit-body-button btn btn-sm btn-outline-primary mt-2'
       td= form_with model: question, local: false, class: 'hidden', html: { id:"edit-question-#{question.id}" } do |f|
         p= f.label :body, 'Question'
         p= f.text_area :body
@@ -26,6 +25,10 @@
               - if user_signed_in? && current_user.is_author?(question)
                 td |
                 td= link_to 'Remove', attachment_path(file.id), remote: true, method: :delete
+    td.question-comment-block
+      button.question-new-comment-button.btn.btn-sm.btn-outline-primary.mt-2 type="button" Comment
+    
+    
     p Links:
     div class="question_links"
       table
@@ -37,4 +40,11 @@
             td= link_to link.name, link.url
           - if user_signed_in? && current_user.is_author?(question)
             td= link_to 'Remove',link_path(link.id), remote: true, method: :delete
+
+    .question-comments     
+      p Comments
+      = render @question.comments
+    div id="question-new-comment" class="hidden"
+      = render 'shared/comment', resource: @question
+
     

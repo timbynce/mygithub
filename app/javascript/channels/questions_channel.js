@@ -5,9 +5,7 @@ consumer.subscriptions.create("QuestionsChannel", {
     this.perform('subscribed');
   },
   
-  received(data) {
-    console.log(data)
-    
-    //$('.table').append(data);
+  received(data) {    
+    $('.table').append(data);
   }
 });

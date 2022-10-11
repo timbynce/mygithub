@@ -1,5 +1,5 @@
 $(document).on('turbolinks:load', function(){
-  $('.answers').on('click', '.edit-answer-link', function(e){
+  $('.answers').on('click', '.answer-edit-button', function(e){
     e.preventDefault();
     $(this).hide();
     var answerId = $(this).data('answerId');
@@ -22,5 +22,12 @@ $(document).on('turbolinks:load', function(){
     } else {
       $('div#new-answer-links-block').addClass('hidden');
     }
+  })
+
+  $('.answers').on('click', '.answer-comment-button', function(e){
+    e.preventDefault();
+    $(this).hide();
+    var answerId = $(this).data('answerId');
+    $('form#comment-answer-' + answerId).removeClass('hidden');
   })
 });

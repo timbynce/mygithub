@@ -3,32 +3,39 @@ module Commented
 
   included do
     before_action :find_commentable, only: %i[comment]
+    after_action :publish_comment, only: [:comment]
   end
 
   def comment
-    @commentable.comments.create!(comment_params.merge(user: current_user))
-    render_success
+    @comment = @commentable.comments.create!(comment_params.merge(user: current_user))
   end
 
   private
 
+  def publish_comment
+    return if @comment.errors.any?
+
+    ActionCable.server.broadcast(
+      "comments_question_#{@comment.question.id}", {
+      partial: ApplicationController.render_with_signed_in_user(
+        current_user,
+        partial: 'comments/comment',
+        locals: { comment: @comment}
+      ),
+      commentable_type: @comment.commentable_type.downcase,
+      commentable_id: @commentable.id
+    })
+  end
+
   def comment_params
-    params.require(:comment).permit(:text)
+    params.require(:comment).permit(:body)
   end
-
-  def render_success
-    render json: { rating: @commentable.rating,
-                   resource_name: @commentable.class.name.downcase,
-                   resource_id: @commentable.id }
-  end
-
-  def render_failure
-    @commentable.errors[:unprocessable_entity] << 'Error on Like Action'
-    render json: { message: @commentable.errors.full_messages }, status: :unprocessable_entity
-  end
-
   
   def find_commentable
     @commentable = model_klass.find(params[:id])
+  end
+
+  def model_klass
+    controller_name.classify.constantize
   end
 end
