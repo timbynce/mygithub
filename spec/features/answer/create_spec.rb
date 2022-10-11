@@ -10,6 +10,29 @@ feature 'User can open question page to create answers', "
   given(:user) { create(:user) }
   given!(:question) { create(:question, author_id: user.id) }
 
+  context 'muliple sessions' do
+    scenario 'answer appears on other users page', js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        click_on 'New answer'
+        fill_in 'Answer', with: 'answer text text'
+        click_on 'Send answer'
+        expect(page).to have_content 'answer text text'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'answer text text'
+      end
+    end
+  end
   describe 'Authenticated user', js: true do
     scenario 'create answer of question' do
       sign_in(user)

@@ -9,6 +9,7 @@ RSpec.describe AnswersController, type: :controller do
 
   it 'includes MyControllerConcern' do
     expect(AnswersController.ancestors.include?(Voted)).to be(true)
+    expect(AnswersController.ancestors.include?(Commented)).to be(true)
   end
 
   describe 'GET #new' do
@@ -37,7 +38,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'redirects to show view' do
         post :create, params: { answer: attributes_for(:answer).merge(author_id: user.id), question_id: question },
                       format: :js
-        expect(response).to render_template :create
+        expect(response).to render_template 'answers/_answer'
       end
     end
 
@@ -54,7 +55,7 @@ RSpec.describe AnswersController, type: :controller do
         post :create,
              params: { answer: attributes_for(:answer, :invalid).merge(author_id: user.id), question_id: question },
              format: :js
-        expect(response).to render_template :create
+             expect(response).to_not render_template 'answers/_answer'
       end
     end
   end

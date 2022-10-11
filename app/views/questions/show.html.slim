@@ -12,11 +12,11 @@
     p Other
     table.table.common_answers
       = render @question.common_answers
-  
+      
+  .answer-errors
+    = render 'shared/errors', resource: @answer
   .new-answer
     button.new-answer-button.btn.btn-primary.mt-2 type="button" New answer
-    .answer-errors
-      = render 'shared/errors', resource: @answer
     div id="new-answer-block" class="hidden"
       = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
         p= f.label :body, 'Answer'

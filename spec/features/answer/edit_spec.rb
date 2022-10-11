@@ -26,10 +26,8 @@ feature 'User can edit his answer', "
       within '.answers' do
         fill_in 'answer_body', with: 'edited answer'
         click_on 'Save Answer'
-
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'edited answer'
-        expect(page).to_not have_selector 'textarea'
       end
     end
 

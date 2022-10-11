@@ -10,6 +10,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   it 'includes MyControllerConcern' do
     expect(QuestionsController.ancestors.include?(Voted)).to be(true)
+    expect(AnswersController.ancestors.include?(Commented)).to be(true)
   end
 
   describe 'GET #index' do

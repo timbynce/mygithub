@@ -40,10 +40,8 @@ feature 'User can add links to answer', "
       fill_in 'Link Url', with: 'ololo'
 
       click_on 'Send answer'
-      within '.answer-errors' do
-        expect(page).to have_content 'Links url is not a valid URL'
-        expect(page).to have_content "Links name can't be blank"
-      end
+
+      expect(page).to_not have_content 'ololo'
     end
 
     scenario 'tries to add correct link when edit answer' do

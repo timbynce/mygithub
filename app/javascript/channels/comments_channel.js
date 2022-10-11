@@ -9,7 +9,7 @@ consumer.subscriptions.create({ channel:"CommentsChannel", question_id: gon.ques
     var type = data.commentable_type
     var id = data.commentable_id
     if (type == 'question') {
-      $('.question_comments').append(data);
+      $('.question-comments').append(data.partial);
     } else {
       $(".answer-"+id+"-comments").append(data.partial);
     }

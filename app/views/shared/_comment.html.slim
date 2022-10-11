@@ -1,4 +1,4 @@
 .new-comment-form
   = form_with scope: :comment, url: polymorphic_path(resource, action: :comment), local: false  do |f|
-    p= f.text_area :body, class: 'form-control mt-2'
+    p= f.text_area :body, class: 'form-control mt-2', id: 'comment_body'
     p= f.submit 'Add comment', class: 'btn btn-primary mt-2'
