@@ -2,9 +2,12 @@
 
 class QuestionsController < ApplicationController
   include Voted
-  
+  include Commented
+
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show update destroy]
+
+  after_action :publish, only: [:create]
 
   def index
     @questions = Question.all
@@ -14,6 +17,7 @@ class QuestionsController < ApplicationController
     @answers = @question.answers
     @answer = Answer.new
     @answer.links.new
+    gon.push({ question_id: @question.id })
   end
 
   def new
@@ -48,8 +52,21 @@ class QuestionsController < ApplicationController
 
   private
 
+  def publish
+    return if @question.errors.any?
+
+    ActionCable.server.broadcast(
+      'questions',
+      ApplicationController.render(
+        partial: 'questions/question_partial',
+        locals: { question: @question }
+      )
+    )
+  end
+
   def question_params
-    params.require(:question).permit(:title, :body, :author_id, files: [], links_attributes: [:name, :url], badge_attributes: %i[name image])
+    params.require(:question).permit(:title, :body, :author_id, files: [], links_attributes: %i[name url],
+                                                                badge_attributes: %i[name image])
   end
 
   def load_question

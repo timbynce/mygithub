@@ -17,6 +17,8 @@ feature 'User can add links to answer', "
     scenario 'adds link when answer the question' do
       sign_in(user)
       visit question_path(question)
+      click_on 'New answer'
+      click_on 'Add links'
 
       fill_in 'Answer', with: 'answer text text'
 
@@ -31,15 +33,15 @@ feature 'User can add links to answer', "
     scenario 'tries to add wrong link when answer the question' do
       sign_in(user)
       visit question_path(question)
+      click_on 'New answer'
+      click_on 'Add links'
 
       fill_in 'Answer', with: 'answer text text'
       fill_in 'Link Url', with: 'ololo'
 
       click_on 'Send answer'
-      within '.answer-errors' do
-        expect(page).to have_content 'Links url is not a valid URL'
-        expect(page).to have_content "Links name can't be blank"
-      end
+
+      expect(page).to_not have_content 'ololo'
     end
 
     scenario 'tries to add correct link when edit answer' do

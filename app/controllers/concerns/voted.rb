@@ -4,8 +4,8 @@ module Voted
   extend ActiveSupport::Concern
 
   included do
-    LIKE = 1.freeze
-    DISLIKE = -1.freeze
+    LIKE = 1
+    DISLIKE = -1
 
     before_action :find_votable, only: %i[like dislike cancel]
     before_action :find_user_vote, only: %i[like dislike]
@@ -32,7 +32,7 @@ module Voted
   end
 
   def render_failure
-    @votable.errors[:unprocessable_entity] << 'Error on Like Action'
+    @votable.errors[:unprocessacommentsble_entity] << 'Error on Like Action'
     render json: { message: @votable.errors.full_messages }, status: :unprocessable_entity
   end
 

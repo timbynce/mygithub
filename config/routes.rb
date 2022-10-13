@@ -5,12 +5,17 @@ Rails.application.routes.draw do
     member do
       patch :like
       patch :dislike
-      delete :cancel
     end
   end
 
-  resources :questions, concerns: %i[voted] do
-    resources :answers, concerns: %i[voted], shallow: true, except: %i[index] do
+  concern :commented do
+    member do
+      post :comment
+    end
+  end
+
+  resources :questions, concerns: %i[voted commented] do
+    resources :answers, concerns: %i[voted commented], shallow: true, except: %i[index] do
       patch 'update_best', on: :member
     end
   end
@@ -20,4 +25,6 @@ Rails.application.routes.draw do
   resources :votes, only: :destroy
   resources :badges, only: :index
   root to: 'questions#index'
+
+  mount ActionCable.server => '/cable'
 end
