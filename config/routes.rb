@@ -14,6 +14,11 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :users do
+    get '/set_email', to: 'emails#new'
+    post '/set_email', to: 'emails#create'
+  end
+
   resources :questions, concerns: %i[voted commented] do
     resources :answers, concerns: %i[voted commented], shallow: true, except: %i[index] do
       patch 'update_best', on: :member
