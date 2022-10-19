@@ -14,9 +14,11 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :users do
-    get '/set_email', to: 'emails#new'
-    post '/set_email', to: 'emails#create'
+  devise_scope :user do
+    post 'send_email_confirmation', to: 'oauth_callbacks#send_email_confirmation',
+                                    as: :send_email_confirmation
+    get 'email_confirmation/:token', to: 'oauth_callbacks#email_confirmation',
+                                     as: :email_confirmation
   end
 
   resources :questions, concerns: %i[voted commented] do

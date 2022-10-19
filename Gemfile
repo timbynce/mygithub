@@ -32,8 +32,10 @@ gem 'gon'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'
+gem 'omniauth-twitter'
 gem 'omniauth-rails_csrf_protection'
 gem 'capybara-email'
+gem 'letter_opener'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
