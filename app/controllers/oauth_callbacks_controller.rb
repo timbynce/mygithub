@@ -8,30 +8,13 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def send_email_confirmation
-    byebug
-    authorization = Authorization.create!(
-      provider: params[:provider],
-      uid: params[:uid],
-      temporary_email: params[:email],
-      confirmation_token: SecureRandom.hex(30),
-      confirmed: false
-    )
-
-    UserMailer.email_confirmation(authorization).deliver
+    SendEmailConfirmationService.new(params).call
+    
     redirect_to root_path, flash: { notice: 'Check your email' }
   end
 
   def email_confirmation
-    authorization = Authorization.find_by(confirmation_token: params[:token], confirmed: false)
-
-    unless authorization
-      redirect_to(root_path, flash: { error: 'Sorry, invalid confirmation' }) && return
-    end
-
-    email = authorization.temporary_email
-    user = User.find_by(email: email) || User.generate_user(email)
-
-    authorization.update(confirmed: true, user_id: user.id)
+    ConfirmationByEmailService.new(params).call
 
     sign_in_and_redirect user, event: :authentication
     set_flash_message(:notice, :success, kind: 'Vkontakte') if is_navigational_format?
