@@ -14,7 +14,7 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def email_confirmation
-    ConfirmationByEmailService.new(params).call
+    user = ConfirmationByEmailService.new(params).call
 
     sign_in_and_redirect user, event: :authentication
     set_flash_message(:notice, :success, kind: 'Vkontakte') if is_navigational_format?

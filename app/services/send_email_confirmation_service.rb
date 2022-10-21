@@ -13,7 +13,7 @@ class SendEmailConfirmationService < ApplicationService
       confirmed: false
     )
 
-    UserMailer.email_confirmation(authorization).deliver
+    return 'success' if UserMailer.email_confirmation(authorization).deliver
   end
 
 end
