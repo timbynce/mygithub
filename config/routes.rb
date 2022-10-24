@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
   concern :voted do
     member do
@@ -12,6 +12,13 @@ Rails.application.routes.draw do
     member do
       post :comment
     end
+  end
+
+  devise_scope :user do
+    post 'send_email_confirmation', to: 'oauth_callbacks#send_email_confirmation',
+                                    as: :send_email_confirmation
+    get 'email_confirmation/:token', to: 'oauth_callbacks#email_confirmation',
+                                     as: :email_confirmation
   end
 
   resources :questions, concerns: %i[voted commented] do

@@ -1,0 +1,8 @@
+h2 Enter your email
+
+= form_with url: send_email_confirmation_path, method: :post do |f|
+  = f.label :email
+  = f.email_field :email, class: "form-control"
+  = hidden_field_tag :provider, @auth.provider
+  = hidden_field_tag :uid, @auth.uid
+  = f.submit 'Submit', class: 'btn btn-primary mt-3'
