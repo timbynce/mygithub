@@ -10,6 +10,8 @@ class AnswersController < ApplicationController
 
   after_action :publish, only: [:create]
 
+  authorize_resource 
+
   def show; end
 
   def new

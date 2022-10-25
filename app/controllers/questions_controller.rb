@@ -9,6 +9,8 @@ class QuestionsController < ApplicationController
 
   after_action :publish, only: [:create]
 
+  authorize_resource 
+
   def index
     @questions = Question.all
   end
