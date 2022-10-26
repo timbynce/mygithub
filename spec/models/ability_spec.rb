@@ -26,21 +26,45 @@ describe Ability do
     let(:user) { create :user }
     let(:other_user) { create :user }
     let(:question) { create(:question, author_id: user.id) }
+    let(:other_question) { create(:question, author_id: other_user.id) }
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
-
-    it { should be_able_to :create, Question }
-    it { should be_able_to :create, Answer }
     it { should be_able_to :create, Comment }
 
-    it { should be_able_to :update, create(:question, author_id: user.id ), user: user }
-    it { should_not be_able_to :update, create(:question, author_id: other_user.id ), user: user }
-  
-    it { should be_able_to :update, create(:answer, author_id: user.id, question: question), user: user }
-    it { should_not be_able_to :update, create(:answer, author_id: other_user.id, question: question), user: user }
-  
-    #it { should be_able_to [:comment], Answer }
+    context 'Question' do
+      it { should be_able_to :create, Question }
+
+      it { should be_able_to :update, create(:question, author_id: user.id) }
+      it { should_not be_able_to :update, create(:question, author_id: other_user.id) }
+
+      it { should be_able_to :destroy, create(:question, author_id: user.id) }
+      it { should_not be_able_to :destroy, create(:question, author_id: other_user.id) }
+
+      it { should be_able_to [:like, :dislike], create(:question, author_id: other_user.id) }
+      it { should_not be_able_to [:like, :dislike], create(:question, author_id: user.id) }
+    end
+
+    context 'Answer' do
+      it { should be_able_to :create, Answer }
+
+      it { should be_able_to :update, create(:answer, question: question, author_id: user.id) }
+      it { should_not be_able_to :update, create(:answer, question: question, author_id: other_user.id) }
+
+      it { should be_able_to :destroy, create(:answer, question: question, author_id: user.id) }
+      it { should_not be_able_to :destroy, create(:answer, question: question, author_id: other_user.id) }
+
+      it { should be_able_to [:like, :dislike], create(:answer, question: question, author_id: other_user.id) }
+      it { should_not be_able_to [:like, :dislike], create(:answer, question: question, author_id: user.id) }
+
+      it { should be_able_to :update_best, create(:answer, question: question, author_id: other_user.id) }
+      it { should_not be_able_to :update_best, create(:answer, question: other_question, author_id: user.id) }
+    end
+
+    context 'Link' do
+      it { should be_able_to :destroy, create(:link, linkable: question) }
+      it { should_not be_able_to :destroy, create(:link, linkable: other_question) }
+    end
   end
 
 end
