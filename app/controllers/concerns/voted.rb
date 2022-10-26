@@ -45,16 +45,12 @@ module Voted
   end
 
   def change_rating_by_value(vote_value)
-    return render_failure if current_user.is_author?(@votable)
-
     if @user_vote.nil?
       Vote.create!(user: current_user, votable: @votable, like_value: vote_value)
-
     else
       return render_failure if @user_vote.like_value == vote_value
 
       @user_vote.destroy
-
     end
     render_success
   end

@@ -1,7 +1,8 @@
 tr class="answer-#{answer.id}"
   td.body = answer.body
-  - if user_signed_in? && current_user.is_author?(answer)
+  - if can? :destroy, answer
     td = link_to "Delete Answer", answer, remote: true, method: :delete, class: 'btn btn-sm btn-outline-primary mt-2'
+  - if can? :update, answer
     td = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }, class: 'answer-edit-button btn btn-sm btn-outline-primary mt-2'
     td= form_with model: answer, local: false, class: 'hidden', html: { id:"edit-answer-#{answer.id}" } do |f|
       p= f.label :body, 'Answer'
@@ -16,12 +17,12 @@ tr class="answer-#{answer.id}"
         = link_to_add_association 'add link', f, :links , class: 'btn btn-sm btn-outline-primary mt-2'
 
       p= f.submit 'Save Answer', class: 'btn btn-sm btn-outline-primary mt-2'
-  - if user_signed_in? && current_user.is_author?(answer.question)
+  - if can? :update_best, answer
     td = link_to "Mark Best", update_best_answer_path(answer), remote: true, method: :patch, class: 'btn btn-sm btn-outline-primary mt-2'
   - if answer.files.attached?
     - answer.files.each do |file|
           td class="file-#{file.id}"= link_to file.filename.to_s, url_for(file)
-          - if user_signed_in? && current_user.is_author?(answer)
+          - if can? :destroy, file
             td class="file-#{file.id}"= link_to 'Remove', attachment_path(file.id), remote: true, method: :delete
   td Links:
   - answer.links.each do |link|
@@ -29,7 +30,7 @@ tr class="answer-#{answer.id}"
       td class="link-script"= link_to open(link.url + '.txt').read, link.url
     - else
       td class="link-#{link.id}"= link_to link.name, link.url
-    - if user_signed_in? && current_user.is_author?(answer)
+    - if can? :destroy, link
       td class="link-#{link.id}"= link_to 'Remove',link_path(link.id), remote: true, method: :delete
 
   - if answer.best_flag == true && answer.question.badge.present?

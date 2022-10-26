@@ -10,7 +10,8 @@ class AnswersController < ApplicationController
 
   after_action :publish, only: [:create]
 
-  authorize_resource 
+  authorize_resource :answer, through: :question, shallow: true,
+                              only: [:create, :edit, :update, :destroy, :toggle_best]
 
   def show; end
 
@@ -23,20 +24,14 @@ class AnswersController < ApplicationController
   end
 
   def update
-    determ_authorize(@answer)
-
     @answer.update(answer_params)
   end
 
   def destroy
-    determ_authorize(@answer)
-
     @answer.destroy
   end
 
   def update_best
-    determ_authorize(@answer)
-
     MarkBestAnswerService.call(@question, @answer)
   end
 
@@ -65,11 +60,5 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body, files: [], links_attributes: %i[name url]).merge(author: current_user)
-  end
-
-  def determ_authorize(answer)
-    return unless current_user.is_author?(answer.question)
-
-    @question = answer.question
   end
 end
