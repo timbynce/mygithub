@@ -16,8 +16,7 @@ feature 'Authorization from providers', %q{
       mock_auth_hash(:vkontakte, 'new@user.com')
 
       click_on 'Sign in with Vkontakte'
-      sleep 10
-      byebug
+      
       expect(page).to have_content 'Successfully authenticated from Vkontakte account.'
     end
   end

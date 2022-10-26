@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OauthCallbacksController < Devise::OmniauthCallbacksController
   def github
     oauth('Github')
@@ -9,7 +11,7 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
 
   def send_email_confirmation
     SendEmailConfirmationService.new(params).call
-    
+
     redirect_to root_path, flash: { notice: 'Check your email' }
   end
 
@@ -20,13 +22,12 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
     set_flash_message(:notice, :success, kind: 'Vkontakte') if is_navigational_format?
   end
 
-
   private
 
   def oauth(provider)
     @auth = request.env['omniauth.auth']
     return render 'devise/registrations/email_request' unless request.env['omniauth.auth'].info[:email]
-    
+
     @user = User.find_for_oauth(request.env['omniauth.auth'])
     if @user&.persisted?
       sign_in_and_redirect @user, event: :authentication

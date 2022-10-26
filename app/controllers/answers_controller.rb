@@ -11,7 +11,7 @@ class AnswersController < ApplicationController
   after_action :publish, only: [:create]
 
   authorize_resource :answer, through: :question, shallow: true,
-                              only: [:create, :edit, :update, :destroy, :toggle_best]
+                              only: %i[create edit update destroy toggle_best]
 
   def show; end
 
@@ -32,7 +32,7 @@ class AnswersController < ApplicationController
   end
 
   def update_best
-    MarkBestAnswerService.call(@question, @answer)
+    MarkBestAnswerService.call(@answer)
   end
 
   private

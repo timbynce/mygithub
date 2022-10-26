@@ -21,7 +21,6 @@ describe Ability do
     it { should be_able_to :manage, :all }
   end
 
-
   describe 'for user' do
     let(:user) { create :user }
     let(:other_user) { create :user }
@@ -41,8 +40,8 @@ describe Ability do
       it { should be_able_to :destroy, create(:question, author_id: user.id) }
       it { should_not be_able_to :destroy, create(:question, author_id: other_user.id) }
 
-      it { should be_able_to [:like, :dislike], create(:question, author_id: other_user.id) }
-      it { should_not be_able_to [:like, :dislike], create(:question, author_id: user.id) }
+      it { should be_able_to %i[like dislike], create(:question, author_id: other_user.id) }
+      it { should_not be_able_to %i[like dislike], create(:question, author_id: user.id) }
     end
 
     context 'Answer' do
@@ -54,8 +53,8 @@ describe Ability do
       it { should be_able_to :destroy, create(:answer, question: question, author_id: user.id) }
       it { should_not be_able_to :destroy, create(:answer, question: question, author_id: other_user.id) }
 
-      it { should be_able_to [:like, :dislike], create(:answer, question: question, author_id: other_user.id) }
-      it { should_not be_able_to [:like, :dislike], create(:answer, question: question, author_id: user.id) }
+      it { should be_able_to %i[like dislike], create(:answer, question: question, author_id: other_user.id) }
+      it { should_not be_able_to %i[like dislike], create(:answer, question: question, author_id: user.id) }
 
       it { should be_able_to :update_best, create(:answer, question: question, author_id: other_user.id) }
       it { should_not be_able_to :update_best, create(:answer, question: other_question, author_id: user.id) }
@@ -66,5 +65,4 @@ describe Ability do
       it { should_not be_able_to :destroy, create(:link, linkable: other_question) }
     end
   end
-
 end

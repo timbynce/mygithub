@@ -25,5 +25,4 @@ RSpec.describe User, type: :model do
       User.find_for_oauth(auth)
     end
   end
-
 end

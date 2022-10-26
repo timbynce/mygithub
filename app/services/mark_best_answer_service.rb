@@ -3,8 +3,8 @@
 class MarkBestAnswerService < ApplicationService
   attr_reader :question, :answer
 
-  def initialize(question, answer)
-    @question = question
+  def initialize(answer)
+    @question = answer.question
     @answer = answer
   end
 

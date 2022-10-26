@@ -8,9 +8,10 @@ feature 'User can add award to question', "
   I'd like to be able to get award
 " do
   given!(:user) { create(:user) }
+  given!(:other_user) { create(:user) }
   given!(:question) { create(:question, author_id: user.id) }
   given!(:badge) { create(:badge, question: question) }
-  given!(:answer) { create(:answer, question: question, author_id: user.id) }
+  given!(:answer) { create(:answer, question: question, author_id: other_user.id) }
 
   scenario 'Authenticated user try to get award', js: true do
     sign_in user
