@@ -9,6 +9,7 @@
     - @questions.each do |question|
       tr
         td.question = link_to question.title, question
-        td= render 'shared/vote', resource: question
+        - if can? :like, question
+          td= render 'shared/vote', resource: question
 
 

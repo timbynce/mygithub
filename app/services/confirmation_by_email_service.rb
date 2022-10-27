@@ -7,7 +7,6 @@ class ConfirmationByEmailService < ApplicationService
   def call
     authorization = Authorization.find_by(confirmation_token: @params[:token], confirmed: false)
 
-    byebug
     email = authorization.temporary_email
     user = User.find_by(email: email) || User.generate_user(email)
 

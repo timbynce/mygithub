@@ -27,8 +27,7 @@ feature 'User can vote an question or answer', "
       sign_in(user)
       visit questions_path
 
-      click_on 'Like'
-      expect(page).to have_content 'Error on Like Action'
+      expect(page).to_not have_content 'Like'
     end
 
     scenario 'try to like the question twice' do
@@ -74,8 +73,7 @@ feature 'User can vote an question or answer', "
       sign_in(user)
       visit question_path(question)
 
-      click_on 'Like'
-      expect(page).to have_content 'Error on Like Action'
+      expect(page).to_not have_content 'Like'
     end
 
     scenario 'try to like the answer twice' do
