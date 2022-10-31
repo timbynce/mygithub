@@ -16,6 +16,8 @@ class Ability
 
   def guest_abilities
     can :read, :all
+    can :all, User
+    can :me, User
   end
 
   def admin_abilitites

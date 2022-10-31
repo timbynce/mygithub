@@ -37,6 +37,7 @@ gem 'omniauth-rails_csrf_protection'
 gem 'capybara-email'
 gem 'letter_opener'
 gem 'cancancan'
+gem 'doorkeeper'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
