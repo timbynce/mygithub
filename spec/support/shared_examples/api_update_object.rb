@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 shared_examples_for 'API Update object' do
@@ -19,13 +20,12 @@ shared_examples_for 'API Update object' do
 
     context 'with invalid attributes' do
       before do
-        do_request(method, api_path, params: "foo")
+        do_request(method, api_path, params: 'foo')
       end
 
       it 'returns error code 401' do
         expect(response.status).to eq 401
       end
-
     end
   end
 
@@ -36,5 +36,4 @@ shared_examples_for 'API Update object' do
       expect(response.status).to eq 401
     end
   end
-
 end

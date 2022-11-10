@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 shared_examples_for 'API Delete object' do
@@ -20,7 +21,7 @@ shared_examples_for 'API Delete object' do
 
     context 'with invalid attributes' do
       before do
-        delete api_path, params: "foo"
+        delete api_path, params: 'foo'
       end
 
       it 'returns error code 401' do

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 shared_examples_for 'API Create object' do |entity|
@@ -7,7 +8,9 @@ shared_examples_for 'API Create object' do |entity|
 
     context 'valid params' do
       it 'saves a new object in database' do
-        expect { do_request(method, api_path, params: params.merge(access_token: access_token.token))}.to change(entity, :count).by(1)
+        expect do
+          do_request(method, api_path, params: params.merge(access_token: access_token.token))
+        end.to change(entity, :count).by(1)
       end
 
       it 'returns successful status' do
@@ -32,6 +35,5 @@ shared_examples_for 'API Create object' do |entity|
 
       expect(response.status).to eq 401
     end
-
   end
 end

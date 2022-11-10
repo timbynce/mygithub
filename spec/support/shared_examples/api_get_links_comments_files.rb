@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 shared_examples_for 'API GET links, comments and attached files' do
@@ -8,8 +9,8 @@ shared_examples_for 'API GET links, comments and attached files' do
     expect(response).to be_successful
   end
 
-  it 'returns all public fields' do 
-    public_fields.each do |attr| 
+  it 'returns all public fields' do
+    public_fields.each do |attr|
       expect(object_response[attr]).to eq question.send(attr).as_json
     end
   end
@@ -24,6 +25,5 @@ shared_examples_for 'API GET links, comments and attached files' do
     it 'have list of links' do
       expect(object_response['links']).to eq(links.pluck(:url))
     end
-  end    
-
+  end
 end

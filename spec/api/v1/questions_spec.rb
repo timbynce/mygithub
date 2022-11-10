@@ -3,8 +3,10 @@
 require 'rails_helper'
 
 describe 'Questions API', type: :request do
-  let(:headers) { { "CONTENT_TYPE" => "application/json",
-                    "ACCEPT" => 'application/json' } }
+  let(:headers) do
+    { 'CONTENT_TYPE' => 'application/json',
+      'ACCEPT' => 'application/json' }
+  end
 
   describe 'GET /api/v1/questions' do
     let(:api_path) { '/api/v1/questions' }
@@ -20,7 +22,7 @@ describe 'Questions API', type: :request do
       let!(:answers) { create_list(:answer, 3, author_id: user.id, question: question) }
 
       before { get '/api/v1/questions', params: { access_token: access_token.token }, headers: headers }
-      
+
       it 'returns 200 status' do
         expect(response).to be_successful
       end
@@ -29,8 +31,8 @@ describe 'Questions API', type: :request do
         expect(json['questions'].size).to eq 2
       end
 
-      it 'returns all public fields' do 
-        %w[title body created_at updated_at].each do |attr| 
+      it 'returns all public fields' do
+        %w[title body created_at updated_at].each do |attr|
           expect(question_response[attr]).to eq question.send(attr).as_json
         end
       end
@@ -45,13 +47,13 @@ describe 'Questions API', type: :request do
 
       describe 'answers' do
         let(:answer) { answers.first }
-        let(:answer_response) { question_response['answers'].first } 
+        let(:answer_response) { question_response['answers'].first }
 
         it 'returns list of answers' do
           expect(question_response['answers'].size).to eq 3
         end
 
-        it 'returns all public fields' do    
+        it 'returns all public fields' do
           %w[id body created_at updated_at].each do |attr|
             expect(answer_response[attr]).to eq answer.send(attr).as_json
           end
@@ -60,7 +62,6 @@ describe 'Questions API', type: :request do
         it 'contatins user object' do
           expect(question_response['author']['id']).to eq question.author.id
         end
-
       end
     end
   end
@@ -83,7 +84,7 @@ describe 'Questions API', type: :request do
       it_behaves_like 'API GET links, comments and attached files'
 
       context 'answers' do
-        before do 
+        before do
           get "/api/v1/questions/#{question.id}", params: { format: :json, access_token: access_token.token }
         end
 
@@ -95,20 +96,20 @@ describe 'Questions API', type: :request do
 
     context 'unauthorized' do
       it 'not returns successful status' do
-        get api_path, params: { format: :json}, headers: headers
+        get api_path, params: { format: :json }, headers: headers
         expect(response.status).to eq 401
       end
     end
   end
 
   describe 'POST /create' do
-    let(:user) { create(:user) }    
+    let(:user) { create(:user) }
     let(:access_token) { create(:access_token) }
     let(:api_path) { '/api/v1/questions' }
     let(:method) { :post }
     let(:params) do
-      { question: attributes_for(:question).merge(author_id: user.id)}
-      end
+      { question: attributes_for(:question).merge(author_id: user.id) }
+    end
 
     it_behaves_like 'API Authorizable'
 
@@ -121,7 +122,7 @@ describe 'Questions API', type: :request do
     let(:api_path) { "/api/v1/questions/#{object.id}" }
     let(:method) { :patch }
     let(:params) do
-      { id: object, question: { body: 'new body' }}
+      { id: object, question: { body: 'new body' } }
     end
 
     it_behaves_like 'API Authorizable'
@@ -135,7 +136,7 @@ describe 'Questions API', type: :request do
     let(:api_path) { "/api/v1/questions/#{object.id}" }
     let(:method) { :delete }
 
-    it_behaves_like 'API Authorizable' 
+    it_behaves_like 'API Authorizable'
 
     it_behaves_like 'API Delete object' do
       let(:described_class) { Question }

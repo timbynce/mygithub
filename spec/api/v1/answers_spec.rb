@@ -3,19 +3,21 @@
 require 'rails_helper'
 
 describe 'Questions API', type: :request do
-  let(:headers) { { "CONTENT_TYPE" => "application/json",
-                    "ACCEPT" => 'application/json' } }
+  let(:headers) do
+    { 'CONTENT_TYPE' => 'application/json',
+      'ACCEPT' => 'application/json' }
+  end
 
   describe 'POST /create' do
-    let(:user) { create(:user) }    
+    let(:user) { create(:user) }
     let(:question) { create(:question, author_id: user.id) }
     let(:access_token) { create(:access_token) }
     let(:api_path) { "/api/v1/questions/#{question.id}/answers" }
     let(:method) { :post }
     let(:params) do
       { question: question,
-        answer: attributes_for(:answer).merge(author_id: user.id)}
-      end
+        answer: attributes_for(:answer).merge(author_id: user.id) }
+    end
 
     it_behaves_like 'API Authorizable'
 
@@ -29,7 +31,7 @@ describe 'Questions API', type: :request do
     let(:api_path) { "/api/v1/answers/#{object.id}" }
     let(:method) { :patch }
     let(:params) do
-      { id: object, question: question, answer: { body: 'new body' }}
+      { id: object, question: question, answer: { body: 'new body' } }
     end
 
     it_behaves_like 'API Authorizable'
@@ -44,7 +46,7 @@ describe 'Questions API', type: :request do
     let(:api_path) { "/api/v1/answers/#{object.id}" }
     let(:method) { :delete }
 
-    it_behaves_like 'API Authorizable' 
+    it_behaves_like 'API Authorizable'
 
     it_behaves_like 'API Delete object' do
       let(:described_class) { Answer }
@@ -71,7 +73,7 @@ describe 'Questions API', type: :request do
 
     context 'unauthorized' do
       it 'not returns successful status' do
-        get api_path, params: { format: :json}, headers: headers
+        get api_path, params: { format: :json }, headers: headers
         expect(response.status).to eq 401
       end
     end
