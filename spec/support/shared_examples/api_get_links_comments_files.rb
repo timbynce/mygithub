@@ -26,4 +26,10 @@ shared_examples_for 'API GET links, comments and attached files' do
       expect(object_response['links']).to eq(links.pluck(:url))
     end
   end
+
+  context 'Files' do
+    it 'have list of files' do
+      expect(object_response['files'].size).to eq(entity.files.size)
+    end
+  end
 end
