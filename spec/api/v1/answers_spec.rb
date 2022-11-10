@@ -68,7 +68,9 @@ describe 'Questions API', type: :request do
     it_behaves_like 'API Authorizable'
 
     context 'authorized' do
-      it_behaves_like 'API GET links, comments and attached files'
+      it_behaves_like 'API GET links, comments and attached files' do
+        let(:entity) { answer }
+      end
     end
 
     context 'unauthorized' do
