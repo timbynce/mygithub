@@ -15,7 +15,6 @@ shared_examples_for 'API Create object' do |entity|
 
       it 'returns successful status' do
         do_request(method, api_path, params: params.merge(access_token: access_token.token))
-
         expect(response).to be_successful
       end
     end

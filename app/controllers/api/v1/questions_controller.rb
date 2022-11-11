@@ -6,21 +6,21 @@ module Api
       protect_from_forgery with: :null_session, prepend: true
 
       before_action :find_question, only: %i[show destroy update]
-      authorize_resource
+      load_and_authorize_resource
 
       def index
-        @questions = Question.all
-        render json: @questions
+        respond_with @questions
       end
 
       def show
-        render json: @question, serializer: QuestionSerializer
+        respond_with @question, serializer: QuestionShowSerializer
       end
 
       def create
         @question = current_resource_owner.questions.create(question_params)
+        
         if @question.save
-          render json: @question, status: :created
+          render json: @question, serializer: QuestionShowSerializer, status: :created
         else
           render json: { errors: @question.errors }, status: :unprocessable_entity
         end
@@ -28,7 +28,7 @@ module Api
 
       def update
         if @question.update(question_params)
-          render json: @question, status: :accepted
+          render json: @question, serializer: QuestionShowSerializer, status: :accepted
         else
           render json: { errors: @question.errors }, status: :unprocessable_entity
         end

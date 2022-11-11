@@ -3,36 +3,32 @@
 module Api
   module V1
     class AnswersController < Api::V1::BaseController
-      before_action :find_question, only: [:create]
-      before_action :find_answer, only: %i[show update destroy]
-
-      authorize_resource
+      load_and_authorize_resource
 
       def show
-        render json: @answer
+        respond_with @answer, serializer: AnswerShowSerializer
       end
 
       def create
-        @answer = @question.answers.create(answer_params)
-        @answer.author = current_resource_owner
-
+        @answer = current_resource_owner.answers.create(answer_params.merge(question_id: params[:question_id]))
+        
         if @answer.save
-          render json: @answer, status: :created
+          render json: @answer, serializer: AnswerShowSerializer, status: :created
         else
           render json: { errors: @answer.errors }, status: :unprocessable_entity
         end
+
       end
 
       def update
-        if @answer.update(answer_params)
-          render json: @answer, status: :accepted
-        else
-          render json: { errors: @answer.errors }, status: :unprocessable_entity
-        end
+        @answer.update(answer_params)
+
+        respond_with @answer, serializer: AnswerShowSerializer
       end
 
       def destroy
         @answer.destroy
+        
         render json: { messages: ['Answer deleted'] }
       end
 
@@ -40,14 +36,6 @@ module Api
 
       def answer_params
         params.require(:answer).permit(:body)
-      end
-
-      def find_question
-        @question = Question.find(params[:question_id])
-      end
-
-      def find_answer
-        @answer = Answer.find(params[:id])
       end
     end
   end

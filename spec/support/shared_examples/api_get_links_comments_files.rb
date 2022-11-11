@@ -11,7 +11,7 @@ shared_examples_for 'API GET links, comments and attached files' do
 
   it 'returns all public fields' do
     public_fields.each do |attr|
-      expect(object_response[attr]).to eq question.send(attr).as_json
+      expect(object_response[attr]).to eq entity.send(attr).as_json
     end
   end
 

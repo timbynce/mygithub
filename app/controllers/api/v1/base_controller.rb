@@ -5,9 +5,12 @@ module Api
     class BaseController < ApplicationController
       before_action :doorkeeper_authorize!
 
+      respond_to :html, :json
+
       private
 
       def current_resource_owner
+        return unless doorkeeper_token
         @current_resource_owner ||= User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
       end
 
