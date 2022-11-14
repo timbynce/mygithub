@@ -11,13 +11,12 @@ module Api
 
       def create
         @answer = current_resource_owner.answers.create(answer_params.merge(question_id: params[:question_id]))
-        
+
         if @answer.save
           render json: @answer, serializer: AnswerShowSerializer, status: :created
         else
           render json: { errors: @answer.errors }, status: :unprocessable_entity
         end
-
       end
 
       def update
@@ -28,7 +27,7 @@ module Api
 
       def destroy
         @answer.destroy
-        
+
         render json: { messages: ['Answer deleted'] }
       end
 

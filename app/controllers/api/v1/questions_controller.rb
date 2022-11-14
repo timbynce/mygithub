@@ -9,18 +9,18 @@ module Api
       load_and_authorize_resource
 
       def index
-        respond_with @questions
+        respond_with @questions, each_serializer: QuestionSerializer
       end
 
       def show
-        respond_with @question, serializer: QuestionShowSerializer
+        respond_with @question, serializer: QuestionSerializer
       end
 
       def create
         @question = current_resource_owner.questions.create(question_params)
-        
+
         if @question.save
-          render json: @question, serializer: QuestionShowSerializer, status: :created
+          render json: @question, serializer: QuestionSerializer, status: :created
         else
           render json: { errors: @question.errors }, status: :unprocessable_entity
         end
@@ -28,7 +28,7 @@ module Api
 
       def update
         if @question.update(question_params)
-          render json: @question, serializer: QuestionShowSerializer, status: :accepted
+          render json: @question, serializer: QuestionSerializer, status: :accepted
         else
           render json: { errors: @question.errors }, status: :unprocessable_entity
         end
