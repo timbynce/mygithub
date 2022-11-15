@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OmniauthMacros
   def mock_auth_hash(provider, email = nil)
     email = email[0] if email.instance_of?(Hash)

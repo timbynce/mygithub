@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
   concern :voted do
@@ -31,6 +32,20 @@ Rails.application.routes.draw do
   resources :links, only: :destroy
   resources :votes, only: :destroy
   resources :badges, only: :index
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: [] do
+        get :me, on: :collection
+        get :all, on: :collection
+      end
+
+      resources :questions, except: [:edit, :new] do
+        resources :answers, except: [:edit, :new], shallow: true
+      end
+    end
+  end
+
   root to: 'questions#index'
 
   mount ActionCable.server => '/cable'
