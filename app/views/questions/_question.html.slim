@@ -1,6 +1,8 @@
 .question
   tr     
     p= question.body
+    .subscription
+      td= render 'subscriptions/subscription', resource: question
     - if can? :destroy, question
       td= link_to 'Delete Question', question, method: :delete, class: 'btn btn-sm btn-outline-primary mt-2'
     - if can? :update, question  
