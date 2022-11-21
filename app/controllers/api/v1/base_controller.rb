@@ -7,8 +7,7 @@ module Api
 
       respond_to :html, :json
 
-
-      rescue_from CanCan::AccessDenied do |exception|
+      rescue_from CanCan::AccessDenied do |_exception|
         render json: { error: ‘access_denied’ }, status: 403
       end
 

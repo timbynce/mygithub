@@ -34,7 +34,7 @@ class Ability
       votable.author_id != user.id
     end
 
-    can :comment, [Question, Answer] do |commentable|
+    can :comment, [Question, Answer] do |_commentable|
       votable.author_id != user.id
     end
   end

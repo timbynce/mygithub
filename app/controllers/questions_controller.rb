@@ -75,5 +75,4 @@ class QuestionsController < ApplicationController
   def find_subsription
     @subscription = @question.subscriptions.find_by(user: current_user)
   end
-
 end
