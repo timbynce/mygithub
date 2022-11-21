@@ -8,6 +8,7 @@ RSpec.describe Question, type: :model do
     it { should have_many(:links).dependent(:destroy) }
     it { should belong_to :author }
     it { should belong_to(:best_answer).class_name('Answer').optional }
+    it { should have_many(:subscriptions).dependent(:destroy) }
   end
 
   it { should accept_nested_attributes_for :links }

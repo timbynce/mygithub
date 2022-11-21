@@ -26,6 +26,7 @@ class Ability
     guest_abilities
     can :create, [Question, Answer, Comment, Subscription]
     can %i[update destroy], [Question, Answer, Comment, Subscription], author_id: user.id
+    can %i[destroy], [Subscription], user_id: user.id
     can :destroy, Link, linkable: { author_id: user.id }
     can :update_best, Answer, question: { author_id: user.id }
 
