@@ -8,6 +8,7 @@ RSpec.describe Question, type: :model do
     it { should have_many(:links).dependent(:destroy) }
     it { should belong_to :author }
     it { should belong_to(:best_answer).class_name('Answer').optional }
+    it { should have_many(:subscriptions).dependent(:destroy) }
   end
 
   it { should accept_nested_attributes_for :links }
@@ -23,4 +24,14 @@ RSpec.describe Question, type: :model do
 
   it_behaves_like 'votable'
   it_behaves_like 'commentable'
+
+  describe 'reputation' do
+    let(:user) { create(:user) }
+    let(:question) { build(:question, author_id: user.id) }
+
+    it 'calls ReputationJob' do
+      expect(ReputationJob).to receive(:perform_later).with(question)
+      question.save!
+    end
+  end
 end

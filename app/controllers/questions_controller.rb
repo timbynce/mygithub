@@ -6,6 +6,7 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show update destroy]
+  before_action :find_subsription, only: [:show]
 
   after_action :publish, only: [:create]
 
@@ -51,6 +52,8 @@ class QuestionsController < ApplicationController
   def publish
     return if @question.errors.any?
 
+    @question.subscriptions.create!(user: current_user)
+
     ActionCable.server.broadcast(
       'questions',
       ApplicationController.render(
@@ -67,5 +70,9 @@ class QuestionsController < ApplicationController
 
   def load_question
     @question = Question.with_attached_files.find(params[:id])
+  end
+
+  def find_subsription
+    @subscription = @question.subscriptions.find_by(user: current_user)
   end
 end
