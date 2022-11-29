@@ -48,7 +48,7 @@ gem 'sinatra', require: false
 gem 'whenever', require: false
 gem 'mysql2'
 gem 'thinking-sphinx'
-
+gem 'database_cleaner'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
