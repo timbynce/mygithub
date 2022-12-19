@@ -13,7 +13,8 @@ Rails.application.configure do
 
   # Show full error reports.
   config.consider_all_requests_local = true
-
+  config.action_controller.perform_caching = true
+  
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join('tmp', 'caching-dev.txt').exist?

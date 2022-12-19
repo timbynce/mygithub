@@ -1,37 +1,38 @@
-.col-12.col-md-8.offset-1
-  h1= @question.title
-  .question-errors
-    = render 'shared/errors', resource: @question
-  = render @question
+- cache @question do
+  .col-12.col-md-8.offset-1
+    h1= @question.title
+    .question-errors
+      = render 'shared/errors', resource: @question
+    = render @question
 
-  .answers
-    p.p.mt-2 The Best
-    table.table.best_answer
-      = render @question.best_answer if @question.best_answer.present?
+    .answers
+      p.p.mt-2 The Best
+      table.table.best_answer
+        = render @question.best_answer if @question.best_answer.present?
 
-    p Other
-    table.table.common_answers
-      = render @question.common_answers
-      
-  .answer-errors
-    = render 'shared/errors', resource: @answer
-  .new-answer
-    button.new-answer-button.btn.btn-primary.mt-2 type="button" New answer
-    div id="new-answer-block" class="hidden"
-      = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
-        p= f.label :body, 'Answer'
-        p= f.text_area :body, class: 'form-control'
-        p= f.label :files
-        p= f.file_field :files, multiple: true
+      p Other
+      table.table.common_answers
+        = render @question.common_answers
         
-        .new-answer-links
-          button.new-answer-links-button.btn.btn-primary.mt-2 type="button" Add links
-          div id="new-answer-links-block" class="hidden"
-            div class="Question links"
-              = f.fields_for :links do |l|
-                = render 'link_fields', f: l
+    .answer-errors
+      = render 'shared/errors', resource: @answer
+    .new-answer
+      button.new-answer-button.btn.btn-primary.mt-2 type="button" New answer
+      div id="new-answer-block" class="hidden"
+        = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
+          p= f.label :body, 'Answer'
+          p= f.text_area :body, class: 'form-control'
+          p= f.label :files
+          p= f.file_field :files, multiple: true
+          
+          .new-answer-links
+            button.new-answer-links-button.btn.btn-primary.mt-2 type="button" Add links
+            div id="new-answer-links-block" class="hidden"
+              div class="Question links"
+                = f.fields_for :links do |l|
+                  = render 'link_fields', f: l
 
-              div class="links"  
-                = link_to_add_association 'add link', f, :links 
+                div class="links"  
+                  = link_to_add_association 'add link', f, :links 
 
-        p= f.submit 'Send answer', class: 'btn btn-primary mt-2'
+          p= f.submit 'Send answer', class: 'btn btn-primary mt-2'

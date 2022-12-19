@@ -1,46 +1,47 @@
-tr class="answer-#{answer.id}"
-  td.body = answer.body
-  - if can? :destroy, answer
-    td = link_to "Delete Answer", answer, remote: true, method: :delete, class: 'btn btn-sm btn-outline-primary mt-2'
-  - if can? :update, answer
-    td = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }, class: 'answer-edit-button btn btn-sm btn-outline-primary mt-2'
-    td= form_with model: answer, local: false, class: 'hidden', html: { id:"edit-answer-#{answer.id}" } do |f|
-      p= f.label :body, 'Answer'
-      p= f.text_area :body
-      p= f.file_field :files, multiple: true
+- cache answer do
+  tr class="answer-#{answer.id}"
+    td.body = answer.body
+    - if can? :destroy, answer
+      td = link_to "Delete Answer", answer, remote: true, method: :delete, class: 'btn btn-sm btn-outline-primary mt-2'
+    - if can? :update, answer
+      td = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }, class: 'answer-edit-button btn btn-sm btn-outline-primary mt-2'
+      td= form_with model: answer, local: false, class: 'hidden', html: { id:"edit-answer-#{answer.id}" } do |f|
+        p= f.label :body, 'Answer'
+        p= f.text_area :body
+        p= f.file_field :files, multiple: true
 
-      p Links: 
-      div class="Question links"
-        = f.fields_for :links do |l|
-          = render 'shared/link_fields', f: l
-      div class="links"  
-        = link_to_add_association 'add link', f, :links , class: 'btn btn-sm btn-outline-primary mt-2'
+        p Links: 
+        div class="Question links"
+          = f.fields_for :links do |l|
+            = render 'shared/link_fields', f: l
+        div class="links"  
+          = link_to_add_association 'add link', f, :links , class: 'btn btn-sm btn-outline-primary mt-2'
 
-      p= f.submit 'Save Answer', class: 'btn btn-sm btn-outline-primary mt-2'
-  - if can? :update_best, answer
-    td = link_to "Mark Best", update_best_answer_path(answer), remote: true, method: :patch, class: 'btn btn-sm btn-outline-primary mt-2'
-  - if answer.files.attached?
-    - answer.files.each do |file|
-          td class="file-#{file.id}"= link_to file.filename.to_s, url_for(file)
-          - if can? :destroy, file
-            td class="file-#{file.id}"= link_to 'Remove', attachment_path(file.id), remote: true, method: :delete
-  td Links:
-  - answer.links.each do |link|
-    - if link.is_a_gist?
-      td class="link-script"= link_to open(link.url + '.txt').read, link.url
-    - else
-      td class="link-#{link.id}"= link_to link.name, link.url
-    - if can? :destroy, link
-      td class="link-#{link.id}"= link_to 'Remove',link_path(link.id), remote: true, method: :delete
+        p= f.submit 'Save Answer', class: 'btn btn-sm btn-outline-primary mt-2'
+    - if can? :update_best, answer
+      td = link_to "Mark Best", update_best_answer_path(answer), remote: true, method: :patch, class: 'btn btn-sm btn-outline-primary mt-2'
+    - if answer.files.attached?
+      - answer.files.each do |file|
+            td class="file-#{file.id}"= link_to file.filename.to_s, url_for(file)
+            - if can? :destroy, file
+              td class="file-#{file.id}"= link_to 'Remove', attachment_path(file.id), remote: true, method: :delete
+    td Links:
+    - answer.links.each do |link|
+      - if link.is_a_gist?
+        td class="link-script"= link_to open(link.url + '.txt').read, link.url
+      - else
+        td class="link-#{link.id}"= link_to link.name, link.url
+      - if can? :destroy, link
+        td class="link-#{link.id}"= link_to 'Remove',link_path(link.id), remote: true, method: :delete
 
-  - if answer.best_flag == true && answer.question.badge.present?
-    td Award:
-    td= answer.question.badge.name
-    td= image_tag(answer.question.badge.image , size: "50x50")
-  td = render 'shared/vote', resource: answer
+    - if answer.best_flag == true && answer.question.badge.present?
+      td Award:
+      td= answer.question.badge.name
+      td= image_tag(answer.question.badge.image , size: "50x50")
+    td = render 'shared/vote', resource: answer
 
-  td= render 'shared/comment', resource: answer
+    td= render 'shared/comment', resource: answer
 
-  td Answer Comments
-  td class="answer-#{answer.id}-comments"
-    = render answer.comments
+    td Answer Comments
+    td class="answer-#{answer.id}-comments"
+      = render answer.comments
