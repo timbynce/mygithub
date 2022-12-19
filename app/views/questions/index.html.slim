@@ -6,10 +6,11 @@
         th Question
         th Voting
         th Rating
-    - @questions.each do |question|
-      tr
-        td.question = link_to question.title, question
-        - if can? :like, question
-          td= render 'shared/vote', resource: question
+    - cache collection_cache_key_for :question do
+      - @questions.each do |question|
+        tr
+          td.question = link_to question.title, question
+          - if can? :like, question
+            td= render 'shared/vote', resource: question
 
 
